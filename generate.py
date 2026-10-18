@@ -21,18 +21,16 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
 HERE = Path(__file__).resolve().parent
+load_dotenv(HERE / ".env")
 sys.path.insert(0, str(HERE))
 
 from config import EVALS, INBOX  # noqa: E402
 from metrics import log_event  # noqa: E402
 
 # Import extract function to reuse extraction caching
-import sys
 sys.path.insert(0, str(HERE / ".claude" / "skills" / "make-flashcards" / "scripts"))
-from extract import extract  # noqa: E402, F401
+from extract import extract  # noqa: E402
 
 try:
     from anthropic import Anthropic
@@ -64,8 +62,7 @@ def log_error(msg: str) -> None:
 
 
 def get_timestamp() -> str:
-    """Get timestamp from stamp.py (same as other scripts)."""
-    import time
+    """Get YYYYMMDD_HHMMSS timestamp."""
     return time.strftime("%Y%m%d_%H%M%S")
 
 
@@ -93,16 +90,18 @@ def validate_pdf(pdf_path: Path) -> None:
         raise RuntimeError(f"PDF must be in {INBOX}; got {pdf_path}")
 
 
-def generate_flashcards(client: Anthropic, model: str, extracted: dict, rules: str) -> list[dict]:
-    """Generate flashcards using Claude API. Returns list of dicts."""
+def generate_content(client: Anthropic, model: str, extracted: dict, rules: str, skill: str) -> tuple[str | list, dict]:
+    """Generic content generation. Returns (content, usage_info)."""
     text_by_page = "\n".join(
         f"--- Page {p['page']} ---\n{p['text']}"
         for p in extracted["pages"]
     )
 
-    user_prompt = f"""Extract important flashcards from this source material:
-
-{text_by_page}"""
+    skill_instructions = {
+        "make-flashcards": "Extract important flashcards from this source material.",
+        "make-summary": "Generate a comprehensive summary of this source material.",
+        "key-points": "Extract the key points from this source material.",
+    }
 
     response = client.messages.create(
         model=model,
@@ -112,88 +111,70 @@ def generate_flashcards(client: Anthropic, model: str, extracted: dict, rules: s
                 "type": "text",
                 "text": rules,
                 "cache_control": {"type": "ephemeral"},
-            }
+            },
+            {
+                "type": "text",
+                "text": f"Source material:\n\n{text_by_page}",
+                "cache_control": {"type": "ephemeral"},
+            },
         ],
-        messages=[{"role": "user", "content": user_prompt}],
+        messages=[{"role": "user", "content": skill_instructions[skill]}],
     )
+
+    # Check for truncation
+    if response.stop_reason == "max_tokens":
+        raise ValueError("Output was cut off (max_tokens reached)")
+    elif response.stop_reason != "end_turn":
+        raise ValueError(f"Response ended unexpectedly (stop_reason: {response.stop_reason})")
 
     response_text = response.content[0].text.strip()
 
-    # Parse JSON
-    try:
-        cards = json.loads(response_text)
-    except json.JSONDecodeError:
-        if "```json" in response_text:
-            json_str = response_text.split("```json")[1].split("```")[0].strip()
-            cards = json.loads(json_str)
-        elif "```" in response_text:
-            json_str = response_text.split("```")[1].split("```")[0].strip()
-            cards = json.loads(json_str)
-        else:
-            raise ValueError("Failed to parse Claude's response as JSON")
+    # Parse based on skill
+    if skill == "make-flashcards":
+        try:
+            content = json.loads(response_text)
+        except json.JSONDecodeError:
+            if "```json" in response_text:
+                json_str = response_text.split("```json")[1].split("```")[0].strip()
+                content = json.loads(json_str)
+            elif "```" in response_text:
+                json_str = response_text.split("```")[1].split("```")[0].strip()
+                content = json.loads(json_str)
+            else:
+                raise ValueError("Failed to parse JSON response")
 
-    if not isinstance(cards, list):
-        raise ValueError("Expected JSON array of cards")
+        if not isinstance(content, list):
+            raise ValueError("Expected JSON array of flashcards")
 
-    # Validate and enforce max count
-    if len(cards) > MAX_CARDS:
-        cards = cards[:MAX_CARDS]
+        if len(content) == 0:
+            raise ValueError("No flashcards generated (empty array)")
 
-    return cards
+        # Validate cards and page ranges
+        valid_pages = {p["page"] for p in extracted["pages"]}
+        for i, card in enumerate(content):
+            if not isinstance(card, dict):
+                raise ValueError(f"Card {i}: not a JSON object")
+            for field in ("question", "answer", "page"):
+                if field not in card:
+                    raise ValueError(f"Card {i}: missing field '{field}'")
+            if not isinstance(card["page"], int) or card["page"] not in valid_pages:
+                raise ValueError(f"Card {i}: page {card.get('page')} not in range {sorted(valid_pages)}")
 
+        # Truncate if needed
+        if len(content) > MAX_CARDS:
+            content = content[:MAX_CARDS]
+    else:
+        content = response_text
 
-def generate_summary(client: Anthropic, model: str, extracted: dict, rules: str) -> str:
-    """Generate summary using Claude API. Returns markdown string."""
-    text_by_page = "\n".join(
-        f"--- Page {p['page']} ---\n{p['text']}"
-        for p in extracted["pages"]
-    )
+    # Collect usage info
+    usage_info = {
+        "input_tokens": getattr(response.usage, "input_tokens", None),
+        "output_tokens": getattr(response.usage, "output_tokens", None),
+        "cache_creation_input_tokens": getattr(response.usage, "cache_creation_input_tokens", None),
+        "cache_read_input_tokens": getattr(response.usage, "cache_read_input_tokens", None),
+    }
 
-    user_prompt = f"""Generate a comprehensive summary of this source material:
-
-{text_by_page}"""
-
-    response = client.messages.create(
-        model=model,
-        max_tokens=8192,
-        system=[
-            {
-                "type": "text",
-                "text": rules,
-                "cache_control": {"type": "ephemeral"},
-            }
-        ],
-        messages=[{"role": "user", "content": user_prompt}],
-    )
-
-    return response.content[0].text.strip()
-
-
-def generate_key_points(client: Anthropic, model: str, extracted: dict, rules: str) -> str:
-    """Generate key points using Claude API. Returns markdown string."""
-    text_by_page = "\n".join(
-        f"--- Page {p['page']} ---\n{p['text']}"
-        for p in extracted["pages"]
-    )
-
-    user_prompt = f"""Extract the key points from this source material:
-
-{text_by_page}"""
-
-    response = client.messages.create(
-        model=model,
-        max_tokens=8192,
-        system=[
-            {
-                "type": "text",
-                "text": rules,
-                "cache_control": {"type": "ephemeral"},
-            }
-        ],
-        messages=[{"role": "user", "content": user_prompt}],
-    )
-
-    return response.content[0].text.strip()
+    return content, usage_info
 
 
 def main() -> int:
@@ -227,17 +208,18 @@ def main() -> int:
 
         # Generate
         gen_start = time.time()
+        content, usage_info = generate_content(client, model, extracted_data, rules, args.skill)
+        gen_sec = round(time.time() - gen_start, 3)
+
+        # Count items
         if args.skill == "make-flashcards":
-            content = generate_flashcards(client, model, extracted_data, rules)
             item_count = len(content) if isinstance(content, list) else 0
         elif args.skill == "make-summary":
-            content = generate_summary(client, model, extracted_data, rules)
-            item_count = 1  # one summary per PDF
+            # Count section headings (lines starting with "##")
+            item_count = sum(1 for line in content.split("\n") if line.startswith("## ")) if isinstance(content, str) else 1
         else:  # key-points
-            content = generate_key_points(client, model, extracted_data, rules)
-            item_count = 1  # one set of key points per PDF
-
-        gen_sec = round(time.time() - gen_start, 3)
+            # Count main bullet points (lines starting with "## ")
+            item_count = sum(1 for line in content.split("\n") if line.startswith("## ")) if isinstance(content, str) else 1
 
         # Write output
         output_folder = OUTPUT_FOLDERS[args.skill]
@@ -254,20 +236,28 @@ def main() -> int:
             output_path = output_folder / f"{pdf_stem}_{timestamp}.md"
             output_path.write_text(content, encoding="utf-8")
 
-        # Log metrics event
-        log_event(
-            "generate",
-            skill=args.skill,
-            pdf=pdf_path.name,
-            output_file=str(output_path),
-            generation_sec=gen_sec,
-            model=model,
-            item_count=item_count,
-        )
+        # Log metrics event with token info
+        event_data = {
+            "skill": args.skill,
+            "pdf": pdf_path.name,
+            "output_file": str(output_path),
+            "generation_sec": gen_sec,
+            "model": model,
+            "item_count": item_count,
+        }
+        if usage_info["input_tokens"] is not None:
+            event_data["input_tokens"] = usage_info["input_tokens"]
+        if usage_info["output_tokens"] is not None:
+            event_data["output_tokens"] = usage_info["output_tokens"]
+        if usage_info["cache_creation_input_tokens"] is not None:
+            event_data["cache_creation_input_tokens"] = usage_info["cache_creation_input_tokens"]
+        if usage_info["cache_read_input_tokens"] is not None:
+            event_data["cache_read_input_tokens"] = usage_info["cache_read_input_tokens"]
 
-        # Output success with timing
+        log_event("generate", **event_data)
+
+        # Print output path for all skills
         print(output_path)
-        print(f"[Timing] Actual execution: {gen_sec:.2f}s generation", file=sys.stderr)
         return 0
 
     except Exception as e:

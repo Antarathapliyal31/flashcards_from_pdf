@@ -9,23 +9,17 @@ Pipeline: generate cards from a PDF (single API call) → evaluate the resulting
 
 ## Procedure
 
-1. **Generate flashcards.** Run:
+1. **Run the pipeline.** Run:
    ```
-   python3 generate.py --skill make-flashcards inbox/<file>.pdf
+   python3 run_pipeline.py inbox/<file>.pdf
    ```
-   On success, prints the path to `flashcards/<pdf_stem>_<timestamp>.json`. On failure, prints an error and points to `evals/errors.log`. Do NOT read or write the output file yourself.
+   This chains extraction → generation → evaluation in one command. On success, prints the evaluation summary. On failure, prints an error and points to `evals/errors.log`. Do NOT read or write the output file yourself.
 
-2. **Evaluate.** Run:
-   ```
-   python evaluator/evaluator.py <path-from-above>
-   ```
-   On success, writes a report to `evals/<pdf_stem>_<timestamp>.report.md` and prints a summary. On failure, points to `evals/errors.log`.
-
-3. **Reply to the user** with one line:
+2. **Reply to the user** with one line:
    ```
    Wrote <path> (<count> cards). Evaluation: <passed> passed, <flagged> flagged. Report: <report_path>.
    ```
-   If either command fails, say so and point to `evals/errors.log`. Never claim cards were checked if evaluation failed.
+   If the pipeline fails, say so and point to `evals/errors.log`.
 
 ## Direct invocation (debugging)
 

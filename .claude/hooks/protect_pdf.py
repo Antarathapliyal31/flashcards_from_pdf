@@ -34,6 +34,7 @@ def is_under(path: Path, parent: Path) -> bool:
 # Keep this list as small as possible — if it grows past 2–3 entries,
 # something is probably wrong with the architecture.
 ALLOWED_BASH_PATTERNS = [
+    r"\brun_pipeline\.py\b",  # end-to-end pipeline (reads PDFs from inbox)
     r"\bextract\.py\b",       # the extraction script
     r"\bgenerate\.py\b",      # generic generation script (reads PDFs from inbox)
     r"^\s*ls\b",               # listing (debug / exploration)

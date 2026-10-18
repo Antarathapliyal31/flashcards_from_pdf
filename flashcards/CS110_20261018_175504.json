@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What does 'sequential' mean in programming?",
+    "answer": "Python runs lines in order, first to last, once each. Nothing is skipped and nothing repeats.",
+    "page": 5
+  },
+  {
+    "question": "What type does input() always return in Python?",
+    "answer": "input() always returns a string (text), even when the user types a number.",
+    "page": 6
+  },
+  {
+    "question": "What is the naming convention for reading user input?",
+    "answer": "Read input into a name ending in Str, cast it to int or float, then store the result under the same name without Str.",
+    "page": 6
+  },
+  {
+    "question": "When should you use int vs float for casting?",
+    "answer": "Use int for whole things you cannot have half of (people, days). Use float for anything with decimals (miles, gallons, degrees).",
+    "page": 6
+  },
+  {
+    "question": "What does the / operator do in Python?",
+    "answer": "True division. Always gives a decimal result, even when it divides evenly. Example: 7 / 2 \u2192 3.5",
+    "page": 7
+  },
+  {
+    "question": "What does the // operator do in Python?",
+    "answer": "Floor division. Throws away the remainder and gives how many whole times it fits. Example: 7 // 2 \u2192 3",
+    "page": 7
+  },
+  {
+    "question": "What does the % operator do in Python?",
+    "answer": "Modulo. Gives only the remainder, the part left over. Example: 7 % 2 \u2192 1",
+    "page": 7
+  },
+  {
+    "question": "How many seconds are in a minute and an hour?",
+    "answer": "60 seconds in a minute, 3600 seconds in an hour.",
+    "page": 7
+  },
+  {
+    "question": "What does print('') do?",
+    "answer": "Prints a blank line to space out output.",
+    "page": 8
+  },
+  {
+    "question": "What does the \\n escape sequence do?",
+    "answer": "Skips a line before the text.",
+    "page": 8
+  },
+  {
+    "question": "What does the \\t escape sequence do?",
+    "answer": "Inserts a tab, indenting the line.",
+    "page": 8
+  },
+  {
+    "question": "How do you round a value to two decimal places?",
+    "answer": "Use round(value, 2)",
+    "page": 8
+  },
+  {
+    "question": "How do you round a value to the nearest whole number?",
+    "answer": "Use round(value) with no second argument.",
+    "page": 8
+  },
+  {
+    "question": "What does math.ceil do?",
+    "answer": "Always rounds UP to the nearest integer, regardless of closeness. Example: 4.2 becomes 5.",
+    "page": 8
+  },
+  {
+    "question": "What does math.floor do?",
+    "answer": "Always rounds DOWN to the nearest integer, regardless of closeness. Example: 4.9 becomes 4.",
+    "page": 8
+  },
+  {
+    "question": "What is the formula to convert Fahrenheit to Celsius?",
+    "answer": "Celsius = (Fahrenheit - 32) * 5/9",
+    "page": 10
+  },
+  {
+    "question": "How do you create a Boolean expression without an if statement?",
+    "answer": "Use a comparison operator (like <=, ==, >) directly in an assignment. The result (True or False) is stored as a value.",
+    "page": 12
+  },
+  {
+    "question": "Why does modulo (%) work for wrapping around days of the week?",
+    "answer": "When you add days beyond 7, modulo % 7 gives the remainder, wrapping the result back to 0-6.",
+    "page": 13
+  },
+  {
+    "question": "What does the expression num % 2 == 0 test?",
+    "answer": "Whether an integer is even. If true, the number is even; if false, it is odd.",
+    "page": 15
+  },
+  {
+    "question": "What does total = total + num1 mean?",
+    "answer": "Evaluate the right side, then store that result back in the variable total. It is assignment, not algebra.",
+    "page": 16
+  },
+  {
+    "question": "When is Hourly Exam 1?",
+    "answer": "Thursday, October 8.",
+    "page": 2
+  },
+  {
+    "question": "When is Hourly Exam 2?",
+    "answer": "Thursday, November 12.",
+    "page": 2
+  },
+  {
+    "question": "How does the second chance policy work?",
+    "answer": "A stronger score on the matching part of the final exam replaces an hourly exam grade.",
+    "page": 2
+  },
+  {
+    "question": "Why must you cast input() before doing arithmetic?",
+    "answer": "input() gives text. Text does not do arithmetic correctly\u2014'5' + '3' gives '53', not 8. Forget to cast and arithmetic silently goes wrong.",
+    "page": 6
+  }
+]

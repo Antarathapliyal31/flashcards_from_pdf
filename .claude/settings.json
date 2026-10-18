@@ -44,8 +44,9 @@
   },
   "permissions": {
     "allow": [
-      "Bash(python3 generate\\.py.*)",
-      "Bash(python evaluator/evaluator\\.py.*)"
+      "Bash(python3 run_pipeline.py *)",
+      "Bash(python3 generate.py *)",
+      "Bash(python3 evaluator/evaluator.py *)"
     ]
   }
 }

@@ -4,32 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Pre-code — a learning project exercising four Claude Code primitives (CLAUDE.md, Skills, Hooks, an external evaluation agent) via a PDF → flashcards pipeline. Design is agreed; scaffolding is in progress. If a directory below is missing, it hasn't been created yet.
+A learning project exercising CLAUDE.md, Skills, Hooks, and external evaluation agents via three content-generation pipelines (flashcards, summaries, key points). End-to-end scaffold is in place; before first use, create the Python env and set the API key (see "Python environment" below).
 
 ## Folder layout
 
-- `inbox/` — source PDFs. **Read-only to Claude.** Never Edit/Write/mv/rm/cp anything here. Only `scripts/extract.py` reads from `inbox/`; everything downstream reads the extracted JSON, not the PDF.
-- `extracted/` — one JSON per PDF, text grouped by page number. Produced by `extract.py`. Single source of truth for the generator and evaluator.
-- `flashcards/` — generated cards, named `<pdf_stem>_<YYYYMMDD_HHMMSS>.json`. One fact per card: question, answer, source page.
-- `evals/` — evaluator reports named `<flashcards_stem>.report.md`. A sibling `<stem>.failed` marker means the evaluator gave up on that card file; delete the marker to retry. `evals/errors.log` holds evaluator crash details.
-- `evaluator/evaluator.py` — standalone Python evaluation agent. Takes flashcard file paths on argv (e.g. `python evaluator/evaluator.py flashcards/X.json`).
-- `.claude/skills/make-flashcards/` — the generation procedure. Read `SKILL.md` there, not this file, for the step-by-step.
+- `inbox/` — source PDFs. **Read-only to Claude.** Never Edit/Write/mv/rm/cp anything here. Only `generate.py` and `extract.py` read from `inbox/`.
+- `extracted/` — one JSON per PDF, text grouped by page number. Produced by `extract.py` (called by `generate.py`). Single source of truth.
+- `flashcards/` — generated flashcards, named `<pdf_stem>_<YYYYMMDD_HHMMSS>.json`. One fact per card: question, answer, source page.
+- `summaries/` — generated summaries, named `<pdf_stem>_<YYYYMMDD_HHMMSS>.md`. Markdown format.
+- `key-points/` — extracted key points, named `<pdf_stem>_<YYYYMMDD_HHMMSS>.md`. Hierarchical markdown format.
+- `evals/` — flashcard evaluation reports named `<flashcards_stem>.report.md`. A sibling `<stem>.failed` marker means the evaluator gave up; delete to retry. `evals/errors.log` holds crash details. `evals/metrics.jsonl` logs `extract`, `generate`, `evaluate`, and `turn` events.
+- `generate.py` — generic generation script. Single Claude API call per skill. Usage: `python3 generate.py --skill <skill> inbox/<file>.pdf`.
+- `evaluator/evaluator.py` — standalone evaluation agent for flashcards only. Takes flashcard file paths on argv.
+- `.claude/skills/*/` — skill definitions. Each has `SKILL.md` and `references/rules.md` (generation rules).
+- `.claude/skills/*/scripts/` — `extract.py` (PDF → JSON) and `stamp.py` (timestamp helper).
 - `.claude/hooks/` — Python hook scripts referenced from `.claude/settings.json`.
 - `config.py` — shared constants (notably the flashcards ↔ report pairing rule).
 
 ## Hard rules
 
-- **Save flashcards with the Write tool, never Bash.** Writing via `echo` or `cat >` bypasses expected tracking and makes files hard to attribute.
-- **Never invent timestamps.** Get them from `scripts/stamp.py` or `date +%Y%m%d_%H%M%S`.
-- **`inbox/` is read-only.** `protect_pdf.py` (PreToolUse hook) enforces this via an allowlist on Bash commands that reference `inbox/`, but follow the rule rather than relying on the hook.
-- **Pairing rule**: `flashcards/<stem>.json` ↔ `evals/<stem>.report.md`. Defined once in `config.py` and imported by both `evaluator.py` and `stop_guard.py` — don't duplicate the rule anywhere else.
+- **Never call generate.py directly from Claude Code.** Skills are the entry point; skills call `generate.py` via Bash (allowed by settings.json). Do NOT read or write output files yourself.
+- **`inbox/` is read-only.** `protect_pdf.py` (PreToolUse hook) enforces this via an allowlist on Bash commands that reference `inbox/`. The allowlist includes `generate.py` and `extract.py`.
+- **Pairing rule** (flashcards only): `flashcards/<stem>.json` ↔ `evals/<stem>.report.md`. Defined once in `config.py` and imported by both `evaluator.py` and `stop_guard.py` — don't duplicate the rule anywhere else.
+- **`generate.py` owns timestamps and file writing.** It calls `stamp.py` internally and uses the Write API (simulated via direct file I/O in Python). Never generate timestamps in Claude Code.
 
-## Running things
+## Pipeline
 
-The normal pipeline runs by asking Claude in-session (e.g. "make flashcards from inbox/lecture5.pdf"); the `make-flashcards` skill chains extract → generate → evaluate. Direct invocation for debugging: `python scripts/extract.py inbox/<file>.pdf` and `python evaluator/evaluator.py flashcards/<file>.json`.
+Three skills available:
 
-No build or lint step yet.
+1. **make-flashcards**: `python3 generate.py --skill make-flashcards inbox/<file>.pdf`, then evaluate with the evaluator.
+2. **make-summary**: `python3 generate.py --skill make-summary inbox/<file>.pdf`.
+3. **key-points**: `python3 generate.py --skill key-points inbox/<file>.pdf`.
+
+Skills are thin wrappers around `generate.py`. In-session, ask "make flashcards from inbox/X.pdf" (etc.); the skill runs `generate.py` and reports results.
+
+For debugging: run `generate.py` directly or call `evaluator/evaluator.py flashcards/<file>.json` to re-evaluate flashcards.
+
+No build or lint step.
+
+## Setup (one-time)
+
+1. Create a virtualenv and install dependencies (Python 3.11+ recommended):
+   ```
+   python3 -m venv .venv
+   .venv/bin/pip install -r requirements.txt
+   ```
+2. Copy the env template and add your Anthropic API key:
+   ```
+   cp .env.example .env
+   # then edit .env to set ANTHROPIC_API_KEY and optionally GEN_MODEL
+   ```
+3. Launch Claude Code **from the project root** (hooks resolve `$CLAUDE_PROJECT_DIR` relative to launch). Restart the Claude Code session if `settings.json` or any hook was changed.
 
 ## Python environment
 
-TBD — pin a Python version and venv before implementation starts, and record both here. System default is pyenv 3.11.9. Hook scripts must call Python by absolute path (via `shebang` or in `settings.json`) so Claude's Bash tool resolves the intended interpreter.
+Python 3.11+. Hook and generation scripts are invoked via `python3` (resolved by your shell's PATH). If you create a `.venv/` but Claude Code picks up a different `python3`, the SDK and `pypdf` imports will fail. Easiest fix: launch Claude Code from a terminal where `.venv/bin/activate` has been run.

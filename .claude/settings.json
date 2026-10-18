@@ -41,5 +41,11 @@
         ]
       }
     ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(python3 generate\\.py.*)",
+      "Bash(python evaluator/evaluator\\.py.*)"
+    ]
   }
 }

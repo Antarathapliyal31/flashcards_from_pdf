@@ -1,0 +1,112 @@
+[
+  {
+    "question": "What does 'sequential' mean in programming?",
+    "answer": "Python runs lines in order, first to last, once each. Nothing is skipped and nothing repeats.",
+    "page": 5
+  },
+  {
+    "question": "Why must you cast input() before doing arithmetic?",
+    "answer": "input() always gives text. \"5\" + \"3\" gives \"53\" (text joins), not 8. Forget to cast and arithmetic silently goes wrong.",
+    "page": 6
+  },
+  {
+    "question": "What naming convention should you use for input variables?",
+    "answer": "Read input into a name ending in Str, cast it to int or float, then store the result under the same name without the Str.",
+    "page": 6
+  },
+  {
+    "question": "When should you use int vs. float for casting?",
+    "answer": "Use int for whole things you cannot have half of (people, days, guests). Use float for anything with decimals (miles, gallons, degrees).",
+    "page": 6
+  },
+  {
+    "question": "What does the / operator do in Python?",
+    "answer": "True division. Always gives a decimal result, even when it divides evenly. Example: 7 / 2 \u2192 3.5",
+    "page": 7
+  },
+  {
+    "question": "What does the // operator do in Python?",
+    "answer": "Floor division. Throws away the remainder and gives how many whole times it fits. Example: 7 // 2 \u2192 3",
+    "page": 7
+  },
+  {
+    "question": "What does the % operator do in Python?",
+    "answer": "Modulo. Gives only the remainder, the part left over. Example: 7 % 2 \u2192 1",
+    "page": 7
+  },
+  {
+    "question": "How many seconds are in a minute and an hour?",
+    "answer": "60 seconds in a minute, 3600 seconds in an hour.",
+    "page": 7
+  },
+  {
+    "question": "What does print(\"\") do?",
+    "answer": "Prints a blank line to space out your output.",
+    "page": 8
+  },
+  {
+    "question": "What does the \\n escape sequence do?",
+    "answer": "Skips a line before the text in print output.",
+    "page": 8
+  },
+  {
+    "question": "What does the \\t escape sequence do?",
+    "answer": "Inserts a tab, so the line is indented in print output.",
+    "page": 8
+  },
+  {
+    "question": "What does round(value, 2) do?",
+    "answer": "Rounds a value to two decimal places.",
+    "page": 8
+  },
+  {
+    "question": "What does math.ceil() do?",
+    "answer": "Always rounds UP to the nearest integer. Example: math.ceil(4.2) \u2192 5. Does not care which is nearer.",
+    "page": 8
+  },
+  {
+    "question": "What does math.floor() do?",
+    "answer": "Always rounds DOWN to the nearest integer. Example: math.floor(4.9) \u2192 4. Does not care which is nearer.",
+    "page": 8
+  },
+  {
+    "question": "What is the formula to convert Fahrenheit to Celsius?",
+    "answer": "degreesC = (degreesF - 32) * 5/9",
+    "page": 10
+  },
+  {
+    "question": "How do you store the result of a Boolean comparison in a variable?",
+    "answer": "Use a comparison operator like <= or == as a value. Example: withinLimits = guests <= capacity stores True or False.",
+    "page": 12
+  },
+  {
+    "question": "Why does (startDay + numDays) % 7 work for wrapping days around a week?",
+    "answer": "Modulo wraps the total back around. If 3 + 10 = 13 and a week has 7 days, then 13 % 7 = 6 wraps to day 6.",
+    "page": 13
+  },
+  {
+    "question": "What does num % 2 == 0 test?",
+    "answer": "Tests whether an integer is even. If num % 2 == 0 is True, the number is even; if False, it is odd.",
+    "page": 15
+  },
+  {
+    "question": "What does the statement total = total + num1 mean?",
+    "answer": "It is not algebra. It means: work out the right side (total + num1), then store that answer back in the variable total.",
+    "page": 16
+  },
+  {
+    "question": "When is Exam 1 for this course?",
+    "answer": "Thursday, October 8.",
+    "page": 2
+  },
+  {
+    "question": "When is Exam 2 for this course?",
+    "answer": "Thursday, November 12.",
+    "page": 2
+  },
+  {
+    "question": "How does the second chance policy work?",
+    "answer": "A stronger score on the matching part of the final exam replaces an hourly exam grade.",
+    "page": 2
+  }
+]

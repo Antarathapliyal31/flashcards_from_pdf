@@ -48,6 +48,7 @@ def read_float_marker(path: Path) -> float | None:
 
 
 def find_unreported(since: float | None) -> list[Path]:
+    """Find unreported flashcards only. Skip summaries/ and key-points/ (no reports for those yet)."""
     if not FLASHCARDS.exists():
         return []
     missing: list[Path] = []

@@ -198,21 +198,12 @@ def _find_extracted(cards_path: Path) -> Path:
 
 
 def _generation_sec(cards_path: Path) -> float | None:
-    """generation_sec = cards.mtime - turn_start_marker.
+    """[DEPRECATED] generation_sec is now logged by generate.py at source.
 
-    turn_start is written by the UserPromptSubmit hook. If no session_id can
-    be resolved (e.g. evaluator run directly from the shell, not through
-    Claude), or if the marker is missing, return None and the field is
-    simply omitted from the logged event.
+    This function is kept for backwards compatibility but always returns None.
+    The generate.py script logs the real generation time when creating cards.
     """
-    session_id = resolve_session_id()
-    if not session_id:
-        return None
-    try:
-        turn_start = float((SESSIONS / f"{session_id}_turn_start").read_text().strip())
-    except (FileNotFoundError, ValueError):
-        return None
-    return round(cards_path.stat().st_mtime - turn_start, 3)
+    return None
 
 
 def process_one(cards_path: Path, client: Anthropic, model: str) -> dict:

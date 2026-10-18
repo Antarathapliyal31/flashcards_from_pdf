@@ -35,6 +35,7 @@ def is_under(path: Path, parent: Path) -> bool:
 # something is probably wrong with the architecture.
 ALLOWED_BASH_PATTERNS = [
     r"\bextract\.py\b",       # the extraction script
+    r"\bgenerate\.py\b",      # generic generation script (reads PDFs from inbox)
     r"^\s*ls\b",               # listing (debug / exploration)
     r"^\s*find\s+inbox\b",     # read-only find
 ]

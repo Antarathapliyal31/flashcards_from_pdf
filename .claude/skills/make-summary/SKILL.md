@@ -1,6 +1,6 @@
 ---
 name: make-summary
-description: Generate a comprehensive summary of a PDF document in the inbox/ folder. Use when the user asks to summarize, condense, or extract key takeaways from a lecture, paper, chapter, or article. Produces a markdown document that captures the main ideas and structure.
+description: Write a prose summary of a PDF in inbox/, organized in short sections that follow the document's structure. Use when the user asks to summarize, condense, give an overview, or explain what a lecture, paper, chapter, or article is about. Not for bullet lists of takeaways; use key-points for that.
 ---
 
 # make-summary

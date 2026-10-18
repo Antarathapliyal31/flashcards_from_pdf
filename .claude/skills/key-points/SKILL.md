@@ -1,6 +1,6 @@
 ---
 name: key-points
-description: Extract the key points from a PDF document in the inbox/ folder as a concise bullet-point list. Use when the user asks for key takeaways, main points, or highlights from a lecture, paper, or article. Produces a structured list focused on the most important ideas.
+description: List the most important takeaways from a PDF in inbox/ as a short bullet list. Use when the user asks for key points, key takeaways, main points, highlights, or a quick bulleted recap. Not for a prose summary or overview; use make-summary for that.
 ---
 
 # key-points

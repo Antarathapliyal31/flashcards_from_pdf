@@ -1,0 +1,77 @@
+{
+  "source": "CS110.pdf",
+  "pages": [
+    {
+      "page": 1,
+      "text": "R U T G E R S  U N I V E R S I T Y    \u00b7    F A L L  2 0 2 6\nCS 110\nSequential Programming\nRecitation 6\nAntara Thapliyal   \u00b7   Recitation Instructor\nSections 1 & 2   \u00b7   ARC 116 (Busch)"
+    },
+    {
+      "page": 2,
+      "text": "First: Exam Questions\nFive minutes for anything you want to ask about the exam.\nAsk me now\nFormat, topics, what to review, how the second chance policy works \u2014 anything.\nExam dates\nHourly Exam 1 is Thursday, October 8. \nExam 2 is Thursday, November 12.\nSecond chance\nA stronger score on the matching part of \nthe final replaces an hourly exam grade.\nExam grade questions\nThose go to your lecture instructor , not to \nme, within two weeks."
+    },
+    {
+      "page": 3,
+      "text": "Today\u2019s Plan\nWriting and running programs together . Open your IDE now.\nExam questions Anything you want to ask before we start. 5 min\nThe building blocks Input, casting, division, and tidy output. 15 min\nSeven programs We write each one together, then run it. 30 min\nWrap up What to practise before the assignment. 5 min\nType along with me. You learn this by making the mistakes yourself, not by watching me avoid them."
+    },
+    {
+      "page": 4,
+      "text": "P A R T  O N E\nThe Building Blocks\nFour things every program today uses.\nAbout 15 minutes"
+    },
+    {
+      "page": 5,
+      "text": "Two Rules for Today\nTop to bottom\nPython runs your lines in order, first to last, once each. \nNothing is skipped and nothing repeats. That is what \n\u201csequential\u201d means.\nNo if statements\nNot even for the True/False problems. If you find \nyourself wanting one, you are looking for a Boolean \nexpression instead \u2014 we will see exactly how.\nConditionals come later in the course. Today is about getting comfortable writing straight-line code."
+    },
+    {
+      "page": 6,
+      "text": "input() Always Gives You Text\nEven when the user types a number, Python hands you a string.\nagesStr = input(\"How old are you? \")   # text\nages = int(agesStr)                    # a number\nThe naming convention we use all semester\n1 Read the input into a name ending in Str.\n2 Cast it to int or float.\n3 Store the result under the same name, without the Str.\nWhy it matters\n\"5\" + \"3\" gives 53, not 8. Text joins; numbers add. \nForget to cast and your arithmetic silently goes \nwrong.\nint or float?\n\u2022 int \u2014 whole things you cannot have half of: \npeople, days, guests.\n\u2022 float \u2014 anything that can have a decimal: \nmiles, gallons, degrees."
+    },
+    {
+      "page": 7,
+      "text": "Three Kinds of Division\nSlash, double slash, and percent do three different jobs.\n/\nTrue division\n7 / 2  \u2192  3.5\nAlways gives a decimal, even when it \ndivides evenly.\n//\nFloor division\n7 // 2  \u2192  3\nThrows away the remainder . How many \nwhole times it fits.\n%\nModulo\n7 % 2  \u2192  1\nGives only the remainder . The part left \nover.\nTogether they split a quantity up: 3725 seconds\n3725 // 3600  =  1 hour\n3725  % 3600  =  125 seconds left over\n125 // 60    =  2 minutes,   125 % 60  =  5 seconds\nKnow these: 60 seconds in a minute, 3600 seconds in an hour ."
+    },
+    {
+      "page": 8,
+      "text": "Making Output Readable\nprint(\"\") Prints a blank line \u2014 space out your output.\nprint(\"\\n Title\") The \\n skips a line before the text.\nprint(\"\\t Indented\") The \\t inserts a tab, so the line is indented.\nround(value, 2) Rounds to two decimal places.\nround(value) Rounds to the nearest whole number .\nmath.ceil and math.floor\nYou need these for the assignment.\nimport math\nprint(math.ceil(4.2))\nprint(math.floor(4.9))\nceil always rounds UP: 4.2 becomes 5.\nfloor always rounds DOWN: 4.9 becomes 4.\nNeither cares which is nearer ."
+    },
+    {
+      "page": 9,
+      "text": "P A R T  T W O\nSeven Programs\nWe write each one together . Type along.\nAbout 30 minutes"
+    },
+    {
+      "page": 10,
+      "text": "Problem 1: Fahrenheit to Celsius\nConvert a temperature the user types in.\n# degreesC = (degreesF - 32) * 5/9\ndegreesFStr = input(\"Enter degrees Fahrenheit: \")\ndegreesF = float(degreesFStr)\ndegreesC = (degreesF - 32) * 5/9\nprint(\"Celsius degrees =\", round(degreesC, 2))\nSample run\nEnter degrees\nFahrenheit: 98.6\nCelsius degrees = 37.0"
+    },
+    {
+      "page": 11,
+      "text": "Problem 2: Miles Per Gallon\nAsk for miles driven and gallons used, then print a message with the answer.\nmilesStr = input(\"How many miles did you drive? \")\nmiles = float(milesStr)\n \ngalsUsedStr = input(\"How many gallons did you use? \")\ngalsUsed = float(galsUsedStr)\n \nmpg = miles / galsUsed\nprint(\"You got\", round(mpg, 2), \"miles to the gallon\")\nSample run\n...miles did you drive? 300\n...gallons did you use? 12\nYou got 25.0 miles\nto the gallon"
+    },
+    {
+      "page": 12,
+      "text": "Problem 3: Is the Venue Within Capacity?\nPrint True or False \u2014 without an if statement.\ncapacityStr = input(\"Enter the venue capacity: \")\ncapacity = int(capacityStr)   # people, so int\n \nguestsStr = input(\"How many guests have arrived? \")\nguests = int(guestsStr)\n \nwithinLimits = guests <= capacity\nprint(\"Within limits?\", withinLimits)\nSample run\n...venue capacity: 150\n...guests arrived? 162\nWithin limits? False\nThe key line\nguests <= capacity is a question. Python \nanswers True or False, and you can store that \nanswer in a variable like any other value."
+    },
+    {
+      "page": 13,
+      "text": "Problem 4: What Day Will You Return?\nDays are numbered 0 to 6, where 0 is Sunday. Leave on day 3, stay 10 nights \u2014 you return on day 6.\nstartDayStr = input(\"What day number do you leave? \" )\nstartDay = int(startDayStr)\n \nnumDaysStr = input(\"How many days will you stay? \" )\nnumDays = int(numDaysStr)\n \nreturnDay = (startDay + numDays) % 7\nprint(\"You will return on day\", returnDay)\nSample run\n...day do you leave? 3\n...will you stay? 10\nYou will return on day 6\nWhy % 7 works\n3 + 10 = 13. The week only has 7 days, so 13 % 7 \n= 6. Modulo wraps you back around."
+    },
+    {
+      "page": 14,
+      "text": "Problem 5: Area of a Rectangle\nSame program, written more compactly \u2014 casting inside input, and the calculation inside print.\n# rectangle\nlength = float(input(\"Enter rectangle length: \"))\nwidth = float(input(\"Enter rectangle width: \"))\n \nprint(\"The area is:\", length * width)\nSample run\n...rectangle length: 8\n...rectangle width: 4.5\nThe area is: 36.0\nTwo styles, same result\nProblems 1\u20134 used a separate line for each step. \nThis one folds them together . Both are correct \u2014 \nthe step-by-step version is easier to debug when \nsomething goes wrong."
+    },
+    {
+      "page": 15,
+      "text": "Problem 6: Even or Odd?\nPrint True if the integer is even, False if it is odd. Still no if statement.\n# another Boolean expression, using %\nnum = int(input(\"Enter an integer: \"))\n \neven = num % 2 == 0\nprint(\"Is it even?\", even)\nSample run\nEnter an integer: 7\nIs it even? False"
+    },
+    {
+      "page": 16,
+      "text": "Problem 7: Accumulating a Total\nStart a total at 0, add three numbers to it one at a time, then print the total and the average.\ntotal = 0\n \nnum1 = int(input(\"Enter num1: \"))\ntotal = total + num1\n \nnum2 = int(input(\"Enter num2: \"))\ntotal = total + num2\n \nnum3 = int(input(\"Enter num3: \"))\ntotal = total + num3\n \nprint(\"The total is:\", total)\nprint(\"The average is:\", round(total / 3, 2))\nSample run\nEnter num1: 10\nEnter num2: 15\nEnter num3: 20\nThe total is: 45\nThe average is: 15.0\ntotal = total + num1 is not algebra. It means: \nwork out the right side, then store that answer \nback in total."
+    },
+    {
+      "page": 17,
+      "text": "Before the Assignment\nThe Str naming convention Read into nameStr , cast, store as name. Use it every time.\nCast before you calculate input() gives text. Text does not do arithmetic.\nBooleans instead of if statements A comparison is a value. Store it, print it.\n/ versus // versus % Decimal, whole part, remainder . Know which one you need.\nmath.ceil and math.floor Always up, always down. You will need both.\nRetype these programs yourself this week. Reading code is not the same as writing it."
+    },
+    {
+      "page": 18,
+      "text": "Questions?\nBring them to recitation, office hours, lab support, or Piazza.\nat1679@scarletmail.rutgers.edu\nOffice hours: Thursdays 11:00 AM \u2013 12:00 PM (Zoom link on Canvas)\nLab support: Wednesdays 12:00 \u2013 2:00 PM, ARC (Busch)"
+    }
+  ]
+}

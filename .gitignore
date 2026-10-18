@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Secrets
+.env
+
+# Runtime state
+.claude/sessions/
+evals/errors.log
+evals/metrics.jsonl
+evals/*.failed

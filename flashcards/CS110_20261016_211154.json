@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What does 'sequential' mean in the context of Python execution?",
+    "answer": "Python runs lines in order, top to bottom, once each. Nothing is skipped and nothing repeats.",
+    "page": 5
+  },
+  {
+    "question": "Why must you cast input() immediately rather than using it directly in calculations?",
+    "answer": "input() always returns text. '5' + '3' gives '53' (concatenation), not 8. You must cast to int/float for arithmetic.",
+    "page": 6
+  },
+  {
+    "question": "What is the recommended naming convention for casting input()?",
+    "answer": "Read into nameStr, cast to int/float, then store the result back as name (without Str suffix).",
+    "page": 6
+  },
+  {
+    "question": "When should you use int vs float for casting input?",
+    "answer": "Use int for whole things you can't have half of (people, days, guests). Use float for anything with decimals (miles, gallons, degrees).",
+    "page": 6
+  },
+  {
+    "question": "What does the / (slash) operator do in Python?",
+    "answer": "True division: always gives a decimal result, even when dividing evenly. Example: 7 / 2 = 3.5",
+    "page": 7
+  },
+  {
+    "question": "What does the // (double slash) operator do?",
+    "answer": "Floor division: throws away the remainder and gives how many whole times it fits. Example: 7 // 2 = 3",
+    "page": 7
+  },
+  {
+    "question": "What does the % (modulo) operator do?",
+    "answer": "Returns only the remainder, the part left over. Example: 7 % 2 = 1",
+    "page": 7
+  },
+  {
+    "question": "How do you insert a blank line using print()?",
+    "answer": "Use print('') to print a blank line and space out your output.",
+    "page": 8
+  },
+  {
+    "question": "How do you skip a line before text in print()?",
+    "answer": "Use the \\n escape sequence at the start of the string. Example: print('\\n Title')",
+    "page": 8
+  },
+  {
+    "question": "How do you indent a line in print output?",
+    "answer": "Use the \\t escape sequence to insert a tab. Example: print('\\t Indented')",
+    "page": 8
+  },
+  {
+    "question": "What is the difference between math.ceil() and math.floor()?",
+    "answer": "ceil always rounds UP (4.2 becomes 5), floor always rounds DOWN (4.9 becomes 4). Neither cares which is nearer.",
+    "page": 8
+  },
+  {
+    "question": "What is the formula to convert Fahrenheit to Celsius?",
+    "answer": "(degreesF - 32) * 5/9",
+    "page": 10
+  },
+  {
+    "question": "How can you check if a number is within a capacity limit without using an if statement?",
+    "answer": "Use a Boolean expression that evaluates to True or False. Example: withinLimits = guests <= capacity",
+    "page": 12
+  },
+  {
+    "question": "Why use modulo 7 when calculating what day of the week you return?",
+    "answer": "Modulo wraps the day back around since a week only has 7 days. Example: (3 + 10) % 7 = 6",
+    "page": 13
+  },
+  {
+    "question": "How do you check if an integer is even without using an if statement?",
+    "answer": "Use a Boolean expression: num % 2 == 0 (returns True if even, False if odd).",
+    "page": 15
+  },
+  {
+    "question": "What does 'total = total + num' mean in programming?",
+    "answer": "It is not algebra. Work out the right side (total + num), then store that result back in the variable total.",
+    "page": 16
+  }
+]

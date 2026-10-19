@@ -119,6 +119,56 @@ Every run appends a JSON line to `evals/metrics.jsonl`:
 
 Errors land in `evals/errors.log`.
 
+## Golden checks in CI
+
+`.github/workflows/golden.yml` runs the full golden dataset on every change that could affect flashcard quality and fails the check if quality drops versus the committed baseline.
+
+### What triggers it
+- Pull requests into `main` and pushes to `main`, filtered by paths:
+  - `config.py`, `generate.py`
+  - `evaluator/**`
+  - `.claude/skills/make-flashcards/references/**`
+  - `.claude/skills/make-flashcards/scripts/extract.py`
+  - `golden_dataset/**`
+  - `requirements.txt`
+  - `.github/workflows/golden.yml`
+- Manual: Actions tab → **golden** → **Run workflow** (`workflow_dispatch`).
+- `SKILL.md` files are deliberately not watched — the golden test never reads them.
+
+### Thresholds (`golden_dataset/run_golden.py --check`)
+Compared against `golden_dataset/baseline/baseline.json`:
+
+| Rule | Behavior |
+|---|---|
+| any case error | fail |
+| `planted_caught == planted_should_flag` | fail if any planted mistake was missed |
+| `traps_wrong == 0` | fail if the generator stated any trap incorrectly |
+| `planted_false_alarms` | allowed `≤ baseline + 1` |
+| `facts_covered` | allowed `≥ baseline - 2` |
+| `traps_not_covered` | allowed `≤ baseline + 1` |
+
+The slack values live as constants at the top of `run_golden.py`.
+
+### Staleness guard
+Before running thresholds, `--check` fails fast if the baseline doesn't match current config:
+- `gen_model` or `eval_model` in `config.py` differs from the baseline
+- Cases were added or removed
+- A case's `planted_should_flag`, `planted_should_pass`, or `facts_total` changed (the planted set or answer key was edited)
+
+If any of those are true, the message tells you to re-baseline locally and commit. CI will never write the baseline itself.
+
+### Updating the baseline (local workflow)
+1. Make the change you want to lock in (e.g., edit a planted card, add a case, change `GEN_MODEL`).
+2. Run a full golden set and rewrite the baseline:
+   ```bash
+   python3 golden_dataset/run_golden.py --baseline
+   ```
+3. Review the diff on `golden_dataset/baseline/baseline.json`.
+4. Commit the baseline change with the PR that triggered it.
+
+### Secret
+The workflow reads `ANTHROPIC_API_KEY` from a repository secret of the same name. The `.env` file is not required in CI; model names come from `config.py`.
+
 ## Design decisions
 
 - **Three skills, hardcoded routing.** Claude Code picks the skill from the user's request; each `SKILL.md` runs one command with `--skill <name>` baked in. `generate.py` never parses prompts, so there's no duplicate routing in Python.

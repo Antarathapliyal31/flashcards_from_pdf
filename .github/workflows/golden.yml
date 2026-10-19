@@ -1,0 +1,63 @@
+name: golden
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - config.py
+      - generate.py
+      - evaluator/**
+      - .claude/skills/make-flashcards/references/**
+      - .claude/skills/make-flashcards/scripts/extract.py
+      - golden_dataset/**
+      - requirements.txt
+      - .github/workflows/golden.yml
+  push:
+    branches: [main]
+    paths:
+      - config.py
+      - generate.py
+      - evaluator/**
+      - .claude/skills/make-flashcards/references/**
+      - .claude/skills/make-flashcards/scripts/extract.py
+      - golden_dataset/**
+      - requirements.txt
+      - .github/workflows/golden.yml
+  workflow_dispatch:
+
+concurrency:
+  group: golden-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run golden --check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 golden_dataset/run_golden.py --check
+
+      - name: Write step summary
+        if: always()
+        run: python3 golden_dataset/_summarize_latest.py >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-results
+          path: golden_dataset/results/*.json
+          if-no-files-found: ignore

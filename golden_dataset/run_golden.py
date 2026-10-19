@@ -46,6 +46,11 @@ BASELINE = GOLDEN / "baseline" / "baseline.json"
 JUDGE_RULES = GOLDEN / "judge_rules.md"
 SKILL = "make-flashcards"
 
+# --check thresholds (how much a CI run may regress against the committed baseline).
+CHECK_FALSE_ALARM_SLACK = 1        # +1 planted false alarms allowed
+CHECK_FACTS_SLACK = 2              # -2 facts covered allowed
+CHECK_TRAPS_NOT_COVERED_SLACK = 1  # +1 trap topics never addressed allowed
+
 
 def load_module(name: str, path: Path):
     """Import a project script by path (generate.py, evaluator.py)."""
@@ -259,6 +264,97 @@ def print_summary(results: dict) -> None:
     print("\nTOTALS:", json.dumps(results["totals"]))
 
 
+# ------------------------- --check mode -------------------------
+
+def _case_signature(case: dict) -> dict:
+    """Shape of a case that must match baseline, independent of pass/fail numbers.
+    This is what defines whether the planted set / answer key changed."""
+    sig: dict = {}
+    if "planted" in case:
+        p = case["planted"]
+        sig["planted"] = {"should_flag": p["should_flag"], "should_pass": p["should_pass"]}
+    if "generator" in case:
+        g = case["generator"]
+        sig["generator"] = {"facts_total": g["facts_total"]}
+    return sig
+
+
+def staleness_reasons(current: dict, base: dict, gen_model: str, eval_model: str) -> list[str]:
+    """Return empty list if baseline matches current config and case shape.
+    Otherwise return one-line reasons the baseline is out of date."""
+    reasons: list[str] = []
+    if base.get("gen_model") != gen_model:
+        reasons.append(f"gen_model: baseline={base.get('gen_model')!r} current={gen_model!r}")
+    if base.get("eval_model") != eval_model:
+        reasons.append(f"eval_model: baseline={base.get('eval_model')!r} current={eval_model!r}")
+    if base.get("only") is not None:
+        reasons.append(f"baseline was partial (only={base.get('only')!r}); re-baseline with a full run")
+
+    base_cases = set(base.get("cases", {}).keys())
+    cur_cases = set(current["cases"].keys())
+    added = sorted(cur_cases - base_cases)
+    removed = sorted(base_cases - cur_cases)
+    if added:
+        reasons.append(f"new cases not in baseline: {added}")
+    if removed:
+        reasons.append(f"baseline has cases that no longer exist: {removed}")
+
+    for name in sorted(cur_cases & base_cases):
+        cur_sig = _case_signature(current["cases"][name])
+        base_sig = _case_signature(base["cases"][name])
+        if cur_sig != base_sig:
+            reasons.append(f"{name} shape changed: baseline={base_sig} current={cur_sig}")
+    return reasons
+
+
+def check_thresholds(current: dict, base: dict) -> list[str]:
+    """Return list of threshold-violation strings. Empty list = pass."""
+    violations: list[str] = []
+
+    bad_cases = [n for n, c in current["cases"].items() if "error" in c]
+    if bad_cases:
+        for name in bad_cases:
+            violations.append(f"case error: {name}: {current['cases'][name].get('error', '')}")
+
+    ct = current.get("totals", {})
+    bt = base.get("totals", {})
+
+    if ct.get("planted_caught") != ct.get("planted_should_flag"):
+        violations.append(
+            f"planted misses: caught={ct.get('planted_caught')} "
+            f"required={ct.get('planted_should_flag')}"
+        )
+
+    if ct.get("traps_wrong", 0) != 0:
+        violations.append(f"traps stated wrong: actual={ct.get('traps_wrong')} allowed=0")
+
+    cur_fa = ct.get("planted_false_alarms", 0)
+    allowed_fa = bt.get("planted_false_alarms", 0) + CHECK_FALSE_ALARM_SLACK
+    if cur_fa > allowed_fa:
+        violations.append(
+            f"planted false alarms: actual={cur_fa} allowed<={allowed_fa} "
+            f"(baseline={bt.get('planted_false_alarms', 0)} + {CHECK_FALSE_ALARM_SLACK})"
+        )
+
+    cur_fc = ct.get("facts_covered", 0)
+    allowed_fc = bt.get("facts_covered", 0) - CHECK_FACTS_SLACK
+    if cur_fc < allowed_fc:
+        violations.append(
+            f"facts covered: actual={cur_fc} allowed>={allowed_fc} "
+            f"(baseline={bt.get('facts_covered', 0)} - {CHECK_FACTS_SLACK})"
+        )
+
+    cur_tn = ct.get("traps_not_covered", 0)
+    allowed_tn = bt.get("traps_not_covered", 0) + CHECK_TRAPS_NOT_COVERED_SLACK
+    if cur_tn > allowed_tn:
+        violations.append(
+            f"traps not covered: actual={cur_tn} allowed<={allowed_tn} "
+            f"(baseline={bt.get('traps_not_covered', 0)} + {CHECK_TRAPS_NOT_COVERED_SLACK})"
+        )
+
+    return violations
+
+
 def compare(current: dict, base: dict) -> None:
     same_scope = (current.get("only") == base.get("only")
                   and sorted(current["cases"]) == sorted(base.get("cases", {})))
@@ -284,7 +380,15 @@ def main() -> int:
     parser.add_argument("--only", choices=["planted", "generator"], default=None)
     parser.add_argument("--case", default=None, help="Run a single case, e.g. CS110-6")
     parser.add_argument("--baseline", action="store_true", help="Replace the baseline with this run (full, error-free runs only)")
+    parser.add_argument("--check", action="store_true",
+                        help="CI pass/fail gate: run full set, compare to committed baseline, "
+                             "exit 1 on regression. Never writes the baseline.")
     args = parser.parse_args()
+
+    if args.check and (args.only or args.case or args.baseline):
+        print("run_golden: --check is a full-run gate; cannot combine with --only/--case/--baseline",
+              file=sys.stderr)
+        return 2
 
     sys.path.insert(0, str(PROJECT_ROOT))
     gen = load_module("generate", PROJECT_ROOT / "generate.py")
@@ -337,6 +441,36 @@ def main() -> int:
 
     had_error = any("error" in c for c in results["cases"].values())
     full_run = args.only is None and args.case is None
+
+    if args.check:
+        # Gate mode: never write the baseline; exit 1 on regression or staleness.
+        if not BASELINE.is_file():
+            print("\nFAIL: No baseline committed; run locally and commit "
+                  "golden_dataset/baseline/baseline.json "
+                  "(python3 golden_dataset/run_golden.py --baseline).",
+                  file=sys.stderr)
+            return 1
+        base = json.loads(BASELINE.read_text(encoding="utf-8"))
+        stale = staleness_reasons(results, base, gen_model, eval_model)
+        if stale:
+            print("\nFAIL: baseline out of date; re-baseline locally with "
+                  "`python3 golden_dataset/run_golden.py --baseline` and commit it.",
+                  file=sys.stderr)
+            for r in stale:
+                print(f"  - {r}", file=sys.stderr)
+            return 1
+        compare(results, base)
+        violations = check_thresholds(results, base)
+        if violations:
+            print(f"\nFAIL: {len(violations)} rule(s) violated vs baseline {base['run_id']}:",
+                  file=sys.stderr)
+            for v in violations:
+                print(f"  - {v}", file=sys.stderr)
+            return 1
+        print("\nPASS: thresholds met vs baseline "
+              f"{base['run_id']} (gen: {base.get('gen_model')}, "
+              f"eval: {base.get('eval_model')}).")
+        return 0
 
     if args.baseline or not BASELINE.is_file():
         reason = "--baseline given" if args.baseline else "no baseline yet"

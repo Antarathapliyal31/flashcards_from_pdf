@@ -5,23 +5,26 @@ description: Write a prose summary of a PDF in inbox/, organized in short sectio
 
 # make-summary
 
-Pipeline: generate summary from a PDF (single API call).
+Pipeline: generate summary from a PDF (single API call) → evaluate the resulting file (standalone Python agent).
 
 ## Procedure
 
-1. **Generate summary.** Run:
+1. **Run the pipeline from the project root.** Run:
    ```
-   python3 generate.py --skill make-summary inbox/<file>.pdf
+   python3 run_pipeline.py --skill make-summary inbox/<file>.pdf
    ```
-   On success, prints the path to `summaries/<pdf_stem>_<timestamp>.md`. On failure, prints an error and points to `evals/errors.log`. Do NOT read or write the output file yourself.
+   (Make sure you're in the project root directory: `/Users/antarathapliyal/flashcards-from-pdf/`)
+
+   This chains extraction → generation → evaluation in one command. On success, prints the evaluation summary. On failure, prints an error and points to `evals/errors.log`. Do NOT read or write the output file yourself.
 
 2. **Reply to the user** with one line:
    ```
-   Wrote <path>.
+   Wrote <path> (<count> sections). Evaluation: <passed> passed, <flagged> flagged. Report: <report_path>.
    ```
-   If the command fails, say so and point to `evals/errors.log`.
+   If the pipeline fails, say so and point to `evals/errors.log`.
 
 ## Direct invocation (debugging)
 
 - Just generate: `python3 generate.py --skill make-summary inbox/<file>.pdf`
+- Just evaluate: `python evaluator/evaluator.py --skill make-summary summaries/<file>.md`
 - Trigger the skill explicitly: `/make-summary`

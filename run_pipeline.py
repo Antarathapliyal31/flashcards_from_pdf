@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""
-End-to-end pipeline for make-flashcards: extract → generate → evaluate.
+"""End-to-end pipeline for all three skills: extract → generate → evaluate.
 
-Single entry point that chains generate.py and evaluator as separate processes.
-For other skills, use generate.py directly.
+Chains generate.py and evaluator.py as separate processes.
 
 Usage:
-    python3 run_pipeline.py inbox/<file>.pdf
+    python3 run_pipeline.py --skill make-flashcards inbox/<file>.pdf
+    python3 run_pipeline.py --skill make-summary inbox/<file>.pdf
+    python3 run_pipeline.py --skill key-points inbox/<file>.pdf
 """
 from __future__ import annotations
 
-import json
+import argparse
 import subprocess
 import sys
 import time
@@ -18,6 +18,9 @@ import traceback
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+
+from config import VALID_SKILLS  # noqa: E402
 
 
 def log_error(msg: str) -> None:
@@ -29,48 +32,48 @@ def log_error(msg: str) -> None:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        print("Usage: python3 run_pipeline.py inbox/<file>.pdf", file=sys.stderr)
-        return 1
+    parser = argparse.ArgumentParser(description="Run generate -> evaluate pipeline for a skill.")
+    parser.add_argument("--skill", required=True, choices=list(VALID_SKILLS),
+                        help="Skill to run: make-flashcards, make-summary, or key-points")
+    parser.add_argument("pdf", help="Path to PDF in inbox/ (e.g., inbox/lecture5.pdf)")
+    args = parser.parse_args()
 
-    pdf_path = Path(sys.argv[1])
+    pdf_path = Path(args.pdf)
     if not pdf_path.exists():
         print(f"Error: {pdf_path} not found", file=sys.stderr)
         return 1
 
     try:
-        # Step 1: Generate flashcards
         gen_result = subprocess.run(
-            [sys.executable, str(HERE / "generate.py"), "--skill", "make-flashcards", str(pdf_path)],
+            [sys.executable, str(HERE / "generate.py"), "--skill", args.skill, str(pdf_path)],
             capture_output=True,
             text=True,
             check=True,
         )
-        cards_path = gen_result.stdout.strip()
-        if not cards_path or not Path(cards_path).exists():
-            raise RuntimeError(f"Generation failed: no output file produced")
+        output_path = gen_result.stdout.strip()
+        if not output_path or not Path(output_path).exists():
+            raise RuntimeError("Generation failed: no output file produced")
 
-        # Step 2: Evaluate flashcards
         eval_result = subprocess.run(
-            [sys.executable, str(HERE / "evaluator" / "evaluator.py"), cards_path],
+            [sys.executable, str(HERE / "evaluator" / "evaluator.py"),
+             "--skill", args.skill, output_path],
             capture_output=True,
             text=True,
             check=True,
         )
 
-        # Output results (evaluator output includes counts and report path)
         print(eval_result.stdout, end="")
         return 0
 
     except subprocess.CalledProcessError as e:
         step = "generation" if "generate.py" in str(e.cmd) else "evaluation"
-        error_msg = f"run_pipeline.py {pdf_path}: {step} failed\n{e.stderr}"
+        error_msg = f"run_pipeline.py --skill {args.skill} {pdf_path}: {step} failed\n{e.stderr}"
         log_error(error_msg)
         print(f"Error: {step} failed (see evals/errors.log)", file=sys.stderr)
         return 1
 
     except Exception as e:
-        error_msg = f"run_pipeline.py {pdf_path}: {e}\n{traceback.format_exc()}"
+        error_msg = f"run_pipeline.py --skill {args.skill} {pdf_path}: {e}\n{traceback.format_exc()}"
         log_error(error_msg)
         print(f"Error: {e}", file=sys.stderr)
         return 1

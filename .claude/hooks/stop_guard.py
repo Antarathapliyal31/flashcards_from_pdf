@@ -1,26 +1,23 @@
 #!/usr/bin/env python3
 """Stop hook: two jobs.
 
-  (1) Safety net — if any current-session flashcards file has no evaluator
-      report, block the stop so Claude runs the evaluator before finishing.
+  (1) Safety net — if any current-session output file (flashcards, summary,
+      or key points) has no evaluator report, block the stop so Claude runs
+      the evaluator before finishing.
   (2) Latency — log wait_sec (UserPromptSubmit -> Stop exit 0) to metrics.
 
 Logic:
   - Read session_id and stop_hook_active from stdin JSON.
   - Read session start (set earlier by session_start.py) and turn start
     (set by user_prompt_submit.py).
-  - Scan flashcards/*.json. "Missing" = modified at/after session start,
-    AND has no evals/<stem>.report.md, AND no evals/<stem>.failed marker.
+  - Scan all three output folders. "Missing" = modified at/after session
+    start, AND has no evals/<stem>.<skill>.report.md, AND no matching
+    .failed marker.
   - No missing              -> log 'turn', delete turn_start, exit 0.
-  - Missing + !stop_active  -> exit 2, DO NOT touch turn_start (Stop will
-                               fire again this turn, and we want to measure
-                               wait_sec from the original prompt).
+  - Missing + !stop_active  -> exit 2, DO NOT touch turn_start.
   - Missing +  stop_active  -> give up: write .failed markers, log giveup,
                                log 'turn', delete turn_start, systemMessage,
                                exit 0.
-
-The session_start marker is left in place across turns within the same session;
-SessionStart overwrites it. Only the turn_start marker is cleaned here.
 
 Fails open on any unexpected error.
 """
@@ -36,8 +33,24 @@ HERE = Path(__file__).resolve().parent
 PROJECT_ROOT = Path(os.environ.get("CLAUDE_PROJECT_DIR", HERE.parents[1]))
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from config import EVALS, FLASHCARDS, SESSIONS, failed_marker, report_path  # noqa: E402
+from config import (  # noqa: E402
+    EVALS,
+    FLASHCARDS,
+    KEY_POINTS,
+    SESSIONS,
+    SUMMARIES,
+    failed_marker,
+    report_path,
+)
 from metrics import log_event  # noqa: E402
+
+
+# (folder, glob pattern, skill name) for all three outputs.
+SCAN_TARGETS = [
+    (FLASHCARDS, "*.json", "make-flashcards"),
+    (SUMMARIES, "*.md", "make-summary"),
+    (KEY_POINTS, "*.md", "key-points"),
+]
 
 
 def read_float_marker(path: Path) -> float | None:
@@ -47,28 +60,29 @@ def read_float_marker(path: Path) -> float | None:
         return None
 
 
-def find_unreported(since: float | None) -> list[Path]:
-    """Find unreported flashcards only. Skip summaries/ and key-points/ (no reports for those yet)."""
-    if not FLASHCARDS.exists():
-        return []
-    missing: list[Path] = []
-    for cards in FLASHCARDS.glob("*.json"):
-        if since is not None and cards.stat().st_mtime < since:
+def find_unreported(since: float | None) -> list[tuple[Path, str]]:
+    """Return (output_file, skill) tuples that have no report yet."""
+    missing: list[tuple[Path, str]] = []
+    for folder, pattern, skill in SCAN_TARGETS:
+        if not folder.exists():
             continue
-        if report_path(cards).exists():
-            continue
-        if failed_marker(cards).exists():
-            continue
-        missing.append(cards)
+        for out in folder.glob(pattern):
+            if since is not None and out.stat().st_mtime < since:
+                continue
+            if report_path(out, skill).exists():
+                continue
+            if failed_marker(out, skill).exists():
+                continue
+            missing.append((out, skill))
     return missing
 
 
-def log_giveup(files: list[Path]) -> None:
+def log_giveup(items: list[tuple[Path, str]]) -> None:
     EVALS.mkdir(parents=True, exist_ok=True)
     with (EVALS / "errors.log").open("a", encoding="utf-8") as f:
         f.write(
             f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] stop_guard gave up on "
-            + ", ".join(str(p) for p in files)
+            + ", ".join(f"{p} ({s})" for p, s in items)
             + "\n"
         )
 
@@ -77,10 +91,6 @@ def log_turn(session_id: str, turn_start: float | None) -> None:
     if turn_start is None:
         return
     wait_sec = round(time.time() - turn_start, 3)
-    # wait_sec is total user-visible wait (UserPromptSubmit -> Stop exit 0).
-    # It includes Claude's thinking, hook overhead, extract/generate/eval, and
-    # the Stop hook's own time. It is NOT generation time — use generation_sec
-    # from the 'evaluate' event for that.
     log_event("turn", session_id=session_id, wait_sec=wait_sec)
 
 
@@ -107,8 +117,8 @@ def main() -> int:
         return 0
 
     if stop_active:
-        for p in missing:
-            failed_marker(p).write_text("")
+        for p, skill in missing:
+            failed_marker(p, skill).write_text("")
         log_giveup(missing)
         log_turn(session_id, turn_start)
         cleanup_turn_marker(session_id)
@@ -117,7 +127,7 @@ def main() -> int:
                 {
                     "systemMessage": (
                         "Evaluator did not produce reports for: "
-                        + ", ".join(p.name for p in missing)
+                        + ", ".join(p.name for p, _ in missing)
                         + ". Marked as .failed; see evals/errors.log and delete the marker to retry."
                     )
                 }
@@ -126,12 +136,16 @@ def main() -> int:
         return 0
 
     # Block + instruct Claude. Do NOT touch turn_start — Stop will fire again.
-    cmd_args = " ".join(str(p.relative_to(PROJECT_ROOT)) for p in missing)
-    file_list = "\n".join(f"  - {p.relative_to(PROJECT_ROOT)}" for p in missing)
+    file_lines = "\n".join(f"  - {p.relative_to(PROJECT_ROOT)} ({s})" for p, s in missing)
+    cmds = "\n".join(
+        f"  python evaluator/evaluator.py --skill {s} {p.relative_to(PROJECT_ROOT)}"
+        for p, s in missing
+    )
     print(
-        "These flashcard files have no evaluator report yet:\n"
-        f"{file_list}\n"
-        f"Run: python evaluator/evaluator.py {cmd_args}",
+        "These output files have no evaluator report yet:\n"
+        f"{file_lines}\n"
+        "Run:\n"
+        f"{cmds}",
         file=sys.stderr,
     )
     return 2

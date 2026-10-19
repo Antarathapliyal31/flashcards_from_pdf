@@ -1,0 +1,97 @@
+[
+  {
+    "question": "What does 'sequential' mean in programming?",
+    "answer": "Python runs lines in order, first to last, once each. Nothing is skipped and nothing repeats.",
+    "page": 5
+  },
+  {
+    "question": "Why does input() need to be cast to int or float?",
+    "answer": "input() always returns text (a string). Text concatenates with +, while numbers add. Forgetting to cast causes arithmetic to silently go wrong.",
+    "page": 6
+  },
+  {
+    "question": "When should you use int versus float for casting?",
+    "answer": "Use int for whole things you cannot have half of (people, days, guests). Use float for anything that can have a decimal (miles, gallons, degrees).",
+    "page": 6
+  },
+  {
+    "question": "What is the difference between / and // in Python?",
+    "answer": "/ is true division and always gives a decimal (7/2 = 3.5). // is floor division and throws away the remainder (7//2 = 3).",
+    "page": 7
+  },
+  {
+    "question": "What does the % operator do in Python?",
+    "answer": "Modulo (%) gives only the remainder. Example: 7 % 2 = 1. It shows the part left over after division.",
+    "page": 7
+  },
+  {
+    "question": "How many seconds are in an hour?",
+    "answer": "3600 seconds in an hour. Also remember: 60 seconds in a minute.",
+    "page": 7
+  },
+  {
+    "question": "What does print('\\n Title') do?",
+    "answer": "The \\n skips a line before printing the text, adding a blank line for spacing.",
+    "page": 8
+  },
+  {
+    "question": "What does print('\\t Indented') do?",
+    "answer": "The \\t inserts a tab character, indenting the line.",
+    "page": 8
+  },
+  {
+    "question": "What is the difference between math.ceil() and math.floor()?",
+    "answer": "math.ceil() always rounds UP (4.2 becomes 5). math.floor() always rounds DOWN (4.9 becomes 4). Neither cares which is nearer.",
+    "page": 8
+  },
+  {
+    "question": "What is the formula to convert Fahrenheit to Celsius?",
+    "answer": "degreesC = (degreesF - 32) * 5/9",
+    "page": 10
+  },
+  {
+    "question": "How can you check if a venue is within capacity without using an if statement?",
+    "answer": "Use a Boolean expression: withinLimits = guests <= capacity. Python evaluates it to True or False, which you can store and print.",
+    "page": 12
+  },
+  {
+    "question": "Why does (startDay + numDays) % 7 work for finding the return day of the week?",
+    "answer": "Modulo wraps the day number back around. If the sum exceeds 6 (days 0\u20136), % 7 brings it back to the correct day of the week.",
+    "page": 13
+  },
+  {
+    "question": "How do you check if a number is even using a Boolean expression?",
+    "answer": "Use num % 2 == 0. If the remainder when divided by 2 is 0, the number is even.",
+    "page": 15
+  },
+  {
+    "question": "What does total = total + num1 mean in programming?",
+    "answer": "It means: evaluate the right side first, then store that result back in the variable total. It is not an algebraic equation.",
+    "page": 16
+  },
+  {
+    "question": "What is the naming convention for reading input in this course?",
+    "answer": "Read input into a variable ending in Str, cast it to int or float, then store the result in a variable with the same name but without Str.",
+    "page": 6
+  },
+  {
+    "question": "When does round(value, 2) apply rounding?",
+    "answer": "round(value, 2) rounds a number to two decimal places.",
+    "page": 8
+  },
+  {
+    "question": "What does round(value) do?",
+    "answer": "round(value) rounds a number to the nearest whole number.",
+    "page": 8
+  },
+  {
+    "question": "What are the exam dates for CS 110 Fall 2026?",
+    "answer": "Hourly Exam 1 is Thursday, October 8. Exam 2 is Thursday, November 12.",
+    "page": 2
+  },
+  {
+    "question": "How does the second chance policy work on the final exam?",
+    "answer": "A stronger score on the matching part of the final exam replaces an hourly exam grade.",
+    "page": 2
+  }
+]

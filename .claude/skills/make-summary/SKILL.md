@@ -1,6 +1,6 @@
 ---
 name: make-summary
-description: Write a prose summary of a PDF in inbox/, organized in short sections that follow the document's structure. Use when the user asks to summarize, condense, give an overview, or explain what a lecture, paper, chapter, or article is about. Not for bullet lists of takeaways; use key-points for that.
+description: Write a prose summary of a PDF in inbox/, organized in short sections that follow the document's structure, with a reference table mapping each section to its source pages. Use when the user asks to summarize, condense, give an overview, or explain what a lecture, paper, chapter, or article is about. Not for bullet lists of takeaways; use key-points for that.
 ---
 
 # make-summary

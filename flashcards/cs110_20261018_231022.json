@@ -1,0 +1,147 @@
+[
+  {
+    "question": "What does Python's input() function always return, regardless of what the user types?",
+    "answer": "It always returns a string (text), even if the user types a number.",
+    "page": 6
+  },
+  {
+    "question": "What is the naming convention for reading input that will be cast to a number?",
+    "answer": "Read into a variable ending in 'Str' (e.g., ageStr), cast it, then store the result under the same name without 'Str' (e.g., age).",
+    "page": 6
+  },
+  {
+    "question": "When should you use int vs float when casting user input?",
+    "answer": "Use int for whole things that can't be fractional (people, days). Use float for values that can have decimals (miles, gallons, degrees).",
+    "page": 6
+  },
+  {
+    "question": "What does the / operator do in Python?",
+    "answer": "True division \u2014 always returns a decimal result, even when the numbers divide evenly. E.g., 7 / 2 \u2192 3.5",
+    "page": 7
+  },
+  {
+    "question": "What does the // operator do in Python?",
+    "answer": "Floor division \u2014 discards the remainder and returns how many whole times the divisor fits. E.g., 7 // 2 \u2192 3",
+    "page": 7
+  },
+  {
+    "question": "What does the % (modulo) operator do in Python?",
+    "answer": "Returns only the remainder of division. E.g., 7 % 2 \u2192 1",
+    "page": 7
+  },
+  {
+    "question": "How would you convert 3725 seconds into hours, minutes, and seconds using // and %?",
+    "answer": "Hours: 3725//3600=1. Remaining: 3725%3600=125s. Minutes: 125//60=2. Seconds: 125%60=5.",
+    "page": 7
+  },
+  {
+    "question": "What does math.ceil() do?",
+    "answer": "Always rounds UP to the nearest whole number, regardless of how close it is to the lower integer. E.g., math.ceil(4.2) \u2192 5.",
+    "page": 8
+  },
+  {
+    "question": "What does math.floor() do?",
+    "answer": "Always rounds DOWN to the nearest whole number, regardless of how close it is to the upper integer. E.g., math.floor(4.9) \u2192 4.",
+    "page": 8
+  },
+  {
+    "question": "What is the difference between math.ceil/math.floor and round()?",
+    "answer": "round() rounds to the nearest value. ceil always goes up, floor always goes down \u2014 neither cares which integer is nearer.",
+    "page": 8
+  },
+  {
+    "question": "How do you import and use math.ceil in Python?",
+    "answer": "import math\nprint(math.ceil(4.2))  # outputs 5",
+    "page": 8
+  },
+  {
+    "question": "What does print(\"\") do?",
+    "answer": "Prints a blank line, which can be used to space out output.",
+    "page": 8
+  },
+  {
+    "question": "What does \\n do inside a print string?",
+    "answer": "Inserts a newline character, skipping a line before the following text.",
+    "page": 8
+  },
+  {
+    "question": "What does \\t do inside a print string?",
+    "answer": "Inserts a tab character, indenting the text that follows it.",
+    "page": 8
+  },
+  {
+    "question": "What does round(value, 2) do?",
+    "answer": "Rounds the value to 2 decimal places.",
+    "page": 8
+  },
+  {
+    "question": "What does round(value) do (with no second argument)?",
+    "answer": "Rounds the value to the nearest whole number.",
+    "page": 8
+  },
+  {
+    "question": "What is the formula to convert Fahrenheit to Celsius?",
+    "answer": "degreesC = (degreesF - 32) * 5 / 9",
+    "page": 10
+  },
+  {
+    "question": "How do you compute miles per gallon in Python?",
+    "answer": "mpg = miles / galsUsed",
+    "page": 11
+  },
+  {
+    "question": "How can you determine if a number of guests is within venue capacity without using an if statement?",
+    "answer": "withinLimits = guests <= capacity\nThis stores True or False directly as a Boolean value.",
+    "page": 12
+  },
+  {
+    "question": "What does a comparison expression like 'guests <= capacity' evaluate to in Python?",
+    "answer": "It evaluates to a Boolean value \u2014 either True or False \u2014 which can be stored in a variable.",
+    "page": 12
+  },
+  {
+    "question": "How do you find the day of the week you return from a trip using modulo?",
+    "answer": "returnDay = (startDay + numDays) % 7\nThis wraps around the 7-day week correctly.",
+    "page": 13
+  },
+  {
+    "question": "Why does (startDay + numDays) % 7 correctly compute the return day of the week?",
+    "answer": "Adding days can exceed 6 (the max day index). % 7 wraps the result back into the 0\u20136 range.",
+    "page": 13
+  },
+  {
+    "question": "How can you cast input to float directly inside the input() call?",
+    "answer": "length = float(input(\"Enter length: \"))\nThis combines reading and casting in one line.",
+    "page": 14
+  },
+  {
+    "question": "What is the advantage of using separate lines for each step (read, cast, calculate) vs. folding them together?",
+    "answer": "The step-by-step version is easier to debug when something goes wrong.",
+    "page": 14
+  },
+  {
+    "question": "How do you check if an integer is even using a Boolean expression (no if statement)?",
+    "answer": "even = num % 2 == 0\nThis stores True if the number is even, False if odd.",
+    "page": 15
+  },
+  {
+    "question": "What does 'total = total + num1' mean in programming (vs. algebra)?",
+    "answer": "It means: evaluate the right side first, then store that result back into 'total'. It is assignment, not equality.",
+    "page": 16
+  },
+  {
+    "question": "How do you accumulate a running total across multiple inputs in Python?",
+    "answer": "Initialize total = 0, then after each input do: total = total + numX. Print total at the end.",
+    "page": 16
+  },
+  {
+    "question": "What does 'sequential programming' mean in the context of Python execution?",
+    "answer": "Python runs lines in order, top to bottom, once each. Nothing is skipped and nothing repeats.",
+    "page": 5
+  },
+  {
+    "question": "Why does '5' + '3' equal '53' instead of 8 in Python?",
+    "answer": "Because both are strings (text). String + string concatenates them. You must cast to int or float first to do arithmetic.",
+    "page": 6
+  }
+]

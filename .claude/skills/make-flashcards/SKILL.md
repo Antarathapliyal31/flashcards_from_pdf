@@ -9,10 +9,12 @@ Pipeline: generate cards from a PDF (single API call) → evaluate the resulting
 
 ## Procedure
 
-1. **Run the pipeline.** Run:
+1. **Run the pipeline from the project root.** Run:
    ```
    python3 run_pipeline.py inbox/<file>.pdf
    ```
+   (Make sure you're in the project root directory: `/Users/antarathapliyal/flashcards-from-pdf/`)
+   
    This chains extraction → generation → evaluation in one command. On success, prints the evaluation summary. On failure, prints an error and points to `evals/errors.log`. Do NOT read or write the output file yourself.
 
 2. **Reply to the user** with one line:

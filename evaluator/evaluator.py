@@ -39,6 +39,7 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from config import (  # noqa: E402
     EVALS,
+    EVALUATOR_MODEL,
     EXTRACTED,
     MAX_ANSWER_CHARS,
     MAX_KEYPOINTS_HEADINGS,
@@ -58,7 +59,6 @@ except ImportError:
 
 
 ERRORS_LOG = EVALS / "errors.log"
-DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 MAX_RETRIES = 2
 RETRY_BACKOFF_SEC = 2
 
@@ -617,7 +617,7 @@ def main(argv: list[str]) -> int:
         print("evaluator: ANTHROPIC_API_KEY not set (see evals/errors.log)", file=sys.stderr)
         return 1
 
-    model = os.environ.get("EVALUATOR_MODEL", DEFAULT_MODEL)
+    model = EVALUATOR_MODEL
     client = Anthropic(api_key=api_key)
 
     had_failure = False

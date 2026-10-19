@@ -1,0 +1,121 @@
+{
+  "pdf": "CS110-6.pdf",
+  "title": "CS110 Recitation 6 - Python Sequential Programming",
+  "pages": 18,
+  "must_know": [
+    {
+      "id": "F1",
+      "page": 3,
+      "fact": "Sequential programs run line by line, top to bottom, so the order of statements matters."
+    },
+    {
+      "id": "F2",
+      "page": 4,
+      "fact": "input() always returns a string, so the value must be cast before doing math."
+    },
+    {
+      "id": "F3",
+      "page": 4,
+      "fact": "Use int() for whole numbers (people, days, items) and float() for decimals (temperature, miles, gallons)."
+    },
+    {
+      "id": "F4",
+      "page": 4,
+      "fact": "Naming convention: read input into a variable ending in Str (e.g., valueStr), then cast it into a variable without the Str suffix."
+    },
+    {
+      "id": "F5",
+      "page": 5,
+      "fact": "/ is division and always gives a decimal; // is floor division and drops the decimal; % (modulo) gives the remainder."
+    },
+    {
+      "id": "F6",
+      "page": 5,
+      "fact": "** is the exponent operator: 7 ** 2 is 49."
+    },
+    {
+      "id": "F7",
+      "page": 6,
+      "fact": "A comparison (==, !=, >, <, >=, <=) produces a Boolean value: True or False."
+    },
+    {
+      "id": "F8",
+      "page": 6,
+      "fact": "= assigns a value; == compares two values."
+    },
+    {
+      "id": "F9",
+      "page": 7,
+      "fact": "Fahrenheit to Celsius: C = (F - 32) * 5 / 9, with parentheses so 32 is subtracted first."
+    },
+    {
+      "id": "F10",
+      "page": 9,
+      "fact": "A Boolean expression can be stored in a variable and printed without an if statement (e.g., withinLimits = guests <= capacity)."
+    },
+    {
+      "id": "F11",
+      "page": 10,
+      "fact": "% 7 wraps a day number around the week, always giving a value from 0 to 6."
+    },
+    {
+      "id": "F12",
+      "page": 14,
+      "fact": "Accumulator pattern: start total at 0, then total = total + num adds each new value to the running sum."
+    },
+    {
+      "id": "F13",
+      "page": 15,
+      "fact": "math.ceil() rounds up and math.floor() rounds down; import math goes at the top of the file."
+    },
+    {
+      "id": "F14",
+      "page": 16,
+      "fact": "\\n prints a new line and \\t prints a tab; escape characters start with a backslash."
+    }
+  ],
+  "traps": [
+    {
+      "id": "T1",
+      "page": 4,
+      "topic": "adding strings from input()",
+      "correct": "\"5\" + \"3\" gives \"53\" (text joins), not 8",
+      "common_mistake": "\"5\" + \"3\" gives 8"
+    },
+    {
+      "id": "T2",
+      "page": 5,
+      "topic": "floor division result",
+      "correct": "7 // 2 is 3",
+      "common_mistake": "7 // 2 is 3.5 or 4"
+    },
+    {
+      "id": "T3",
+      "page": 10,
+      "topic": "modulo wrap-around",
+      "correct": "13 % 7 is 6 and 14 % 7 is 0",
+      "common_mistake": "14 % 7 is 7"
+    },
+    {
+      "id": "T4",
+      "page": 15,
+      "topic": "ceil and floor of a negative number",
+      "correct": "math.ceil(-2.3) is -2 and math.floor(-2.3) is -3",
+      "common_mistake": "math.ceil(-2.3) is -3 or math.floor(-2.3) is -2"
+    },
+    {
+      "id": "T5",
+      "page": 16,
+      "topic": "round with no digits argument",
+      "correct": "round(3.4567) gives 4 (a whole number); round(3.4567, 2) gives 3.46",
+      "common_mistake": "round(3.4567) gives 3.46 or 3"
+    },
+    {
+      "id": "T6",
+      "page": 17,
+      "topic": "seconds to hours, minutes, seconds",
+      "correct": "4000 seconds is 1 h 6 m 40 s (hours = totalSec // 3600, leftover = totalSec % 3600)",
+      "common_mistake": "uses / instead of //, or gets 1 h 7 m"
+    }
+  ]
+}

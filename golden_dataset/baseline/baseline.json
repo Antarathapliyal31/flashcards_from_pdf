@@ -1,0 +1,1540 @@
+{
+  "run_id": "20261019_152848",
+  "gen_model": "claude-sonnet-4-6",
+  "eval_model": "claude-haiku-4-5-20251001",
+  "only": null,
+  "cases": {
+    "CS110-5": {
+      "planted": {
+        "caught": 5,
+        "should_flag": 5,
+        "caught_right_reason": 5,
+        "false_alarms": 0,
+        "should_pass": 11,
+        "misses": [],
+        "false_alarm_details": [],
+        "eval_sec": 7.982,
+        "usage": {
+          "input_tokens": 4261,
+          "output_tokens": 1141
+        },
+        "per_card": {
+          "0": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Card matches page 3 warm-up section on decimal-to-binary conversion."
+          },
+          "1": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 6 shows 2 + 3 * 4 = 14, not 20; 20 is the result of (2 + 3) * 4."
+          },
+          "2": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 7 terminal section confirms python3 entry and exit() to leave."
+          },
+          "3": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 9 explicitly states '= sign means store, not equals.'"
+          },
+          "4": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Answer conflates pages 11 and 13; page 11 discusses commas vs +, not page 13 which covers Booleans."
+          },
+          "5": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 12 defines random.randint(1, 10) as 'whole number 1–10 (both included).'"
+          },
+          "6": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "For loops are not mentioned anywhere in the source text."
+          },
+          "7": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 12 states random.random() returns 'decimal from 0 up to (not incl.) 1.'"
+          },
+          "8": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 3 shows 45₁₀ = 2D₁₆ (where D=13), not 2E."
+          },
+          "9": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 13 defines Boolean values as 'A logical result: True or False.'"
+          },
+          "10": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Answer about importing libraries does not answer the question about math.sqrt(x)."
+          },
+          "11": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 16 shows area = length * width and perimeter = 2 * (length + width)."
+          },
+          "12": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 17 confirms 'Why * 9 + 1?' explanation yields [1, 10) range."
+          },
+          "13": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 19 bug table identifies curly quotes as the issue."
+          },
+          "14": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 14 states 'Colon after if / else, indent the body.'"
+          },
+          "15": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 6 order of operations matches: ** first, * / next, + - last."
+          }
+        }
+      },
+      "generator": {
+        "cards": 30,
+        "facts_covered": 13,
+        "facts_total": 13,
+        "facts_page_correct": 12,
+        "facts_missed": [],
+        "traps": {
+          "correct": 5,
+          "wrong": 0,
+          "not_covered": 0
+        },
+        "traps_wrong": [],
+        "evaluator_flagged": 1,
+        "uncovered_pages": [
+          1,
+          2,
+          4,
+          5,
+          8,
+          10,
+          18,
+          22
+        ],
+        "judge_missing_ids": [],
+        "gen_sec": 26.888,
+        "eval_sec": 9.73,
+        "judge_sec": 6.552,
+        "usage": {
+          "generate": {
+            "input_tokens": 16,
+            "output_tokens": 1614,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 3578
+          },
+          "evaluate": {
+            "input_tokens": 5449,
+            "output_tokens": 1452
+          },
+          "judge": {
+            "input_tokens": 3731,
+            "output_tokens": 844
+          }
+        },
+        "generated_cards": [
+          {
+            "question": "How do you convert 45 from decimal to binary using repeated division?",
+            "answer": "Divide by 2 repeatedly, record remainders, read bottom to top: 45₁₀ = 101101₂",
+            "page": 3
+          },
+          {
+            "question": "How do you convert binary to hexadecimal?",
+            "answer": "Split binary into groups of 4 bits from the right, pad left with 0s, then convert each group to its hex digit.",
+            "page": 3
+          },
+          {
+            "question": "What does the ** operator do in Python?",
+            "answer": "** is the exponentiation (power) operator. Example: 7 ** 2 = 49.",
+            "page": 6
+          },
+          {
+            "question": "What is Python's order of operations for arithmetic operators?",
+            "answer": "** first, then * and /, then + and -. Parentheses override this order.",
+            "page": 6
+          },
+          {
+            "question": "What does the = sign mean in Python?",
+            "answer": "= means 'store' (assignment), not 'equals'. The right side is evaluated first, then saved to the left-side variable.",
+            "page": 9
+          },
+          {
+            "question": "What is the difference between = and == in Python?",
+            "answer": "= assigns a value to a variable. == compares two values and returns True or False.",
+            "page": 14
+          },
+          {
+            "question": "How do you print a variable's value with descriptive text using commas in Python?",
+            "answer": "Use commas: print(\"The sum is:\", c). Commas add a space automatically and work with any type.",
+            "page": 11
+          },
+          {
+            "question": "How do you concatenate a string and a number using + in Python?",
+            "answer": "Wrap the number in str(): print(\"The sum is: \" + str(c)). The + operator only joins text to text.",
+            "page": 11
+          },
+          {
+            "question": "How do you import the random and math libraries in Python?",
+            "answer": "Add at the top of your file: import random and import math.",
+            "page": 12
+          },
+          {
+            "question": "What does random.randint(1, 10) return?",
+            "answer": "A random whole number between 1 and 10, inclusive on both ends.",
+            "page": 12
+          },
+          {
+            "question": "What does random.random() return?",
+            "answer": "A random decimal number from 0 (inclusive) up to but not including 1.",
+            "page": 12
+          },
+          {
+            "question": "What does math.ceil(x) do?",
+            "answer": "Rounds x UP to the nearest whole number.",
+            "page": 12
+          },
+          {
+            "question": "What does math.floor(x) do?",
+            "answer": "Rounds x DOWN to the nearest whole number.",
+            "page": 12
+          },
+          {
+            "question": "What does math.sqrt(x) do?",
+            "answer": "Returns the square root of x.",
+            "page": 12
+          },
+          {
+            "question": "What is a Boolean value in Python?",
+            "answer": "A logical value that is either True or False. Example: (11 >= 10) evaluates to True.",
+            "page": 13
+          },
+          {
+            "question": "What is the syntax for an if-else statement in Python?",
+            "answer": "if condition:\n    body\nelse:\n    body\nColon required after if/else; body must be indented 4 spaces.",
+            "page": 14
+          },
+          {
+            "question": "How do you generate a random decimal number between 1 (inclusive) and 10 (exclusive) in Python?",
+            "answer": "Use random.random() * 9 + 1. random.random() gives [0,1), ×9 gives [0,9), +1 gives [1,10).",
+            "page": 17
+          },
+          {
+            "question": "What does round(x, 2) do in Python?",
+            "answer": "Rounds x to 2 decimal places. Example: round(0.3478, 2) returns 0.35.",
+            "page": 15
+          },
+          {
+            "question": "What is the formula for the perimeter of a rectangle?",
+            "answer": "perimeter = 2 * (length + width)",
+            "page": 16
+          },
+          {
+            "question": "What is the formula for the area of a rectangle?",
+            "answer": "area = length * width",
+            "page": 16
+          },
+          {
+            "question": "What is the formula to convert Fahrenheit to Celsius?",
+            "answer": "C = (F - 32) * 5 / 9",
+            "page": 21
+          },
+          {
+            "question": "Why can't you use + to concatenate a string and a number in Python?",
+            "answer": "Python's + operator can only join two strings. Adding a string and number raises a TypeError; use str() to convert the number first.",
+            "page": 11
+          },
+          {
+            "question": "What is a common bug when comparing a Boolean variable in an if statement?",
+            "answer": "Using = instead of ==: 'if bigNumber = True' is wrong. Use 'if bigNumber == True' or simply 'if bigNumber'.",
+            "page": 19
+          },
+          {
+            "question": "What happens when you add a decimal and an integer in Python?",
+            "answer": "Python handles mixed types automatically and returns a decimal (float). Example: 0.35 + 3 = 3.35.",
+            "page": 15
+          },
+          {
+            "question": "What is the Python interpreter (immediate mode) used for?",
+            "answer": "It evaluates one expression at a time in the terminal. Enter with 'python3', exit with 'exit()'.",
+            "page": 7
+          },
+          {
+            "question": "What is the value of 2 + 3 * 4 in Python, and why?",
+            "answer": "14, because * has higher precedence than +, so 3*4=12 is computed first, then 2+12=14.",
+            "page": 6
+          },
+          {
+            "question": "What is the value of (2 + 3) * 4 in Python?",
+            "answer": "20, because parentheses force 2+3=5 to be evaluated first, then 5*4=20.",
+            "page": 6
+          },
+          {
+            "question": "What does 7 / 2 return in Python?",
+            "answer": "3.5 — Python's / operator always returns a float (decimal), even when dividing two integers.",
+            "page": 6
+          },
+          {
+            "question": "What is math.pi in Python?",
+            "answer": "A constant in the math library representing the value of π (approximately 3.14159).",
+            "page": 21
+          },
+          {
+            "question": "What are the three key questions to ask before writing a Python program?",
+            "answer": "1) What values do I need? (variables) 2) What do I calculate? (expressions) 3) What should the output look like? (print statements)",
+            "page": 20
+          }
+        ],
+        "judge_verdict": {
+          "facts": [
+            {
+              "id": "F1",
+              "covered": true,
+              "cards": [
+                0
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F2",
+              "covered": true,
+              "cards": [
+                1
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F3",
+              "covered": true,
+              "cards": [
+                3
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F4",
+              "covered": true,
+              "cards": [
+                24
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F5",
+              "covered": true,
+              "cards": [
+                4
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F6",
+              "covered": true,
+              "cards": [
+                6,
+                7,
+                21
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F7",
+              "covered": true,
+              "cards": [
+                8
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F8",
+              "covered": true,
+              "cards": [
+                11,
+                12,
+                13
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F9",
+              "covered": true,
+              "cards": [
+                14
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F10",
+              "covered": true,
+              "cards": [
+                5,
+                15
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F11",
+              "covered": true,
+              "cards": [
+                17,
+                23
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F12",
+              "covered": true,
+              "cards": [
+                18,
+                19
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F13",
+              "covered": true,
+              "cards": [
+                21,
+                22
+              ],
+              "page_correct": false
+            }
+          ],
+          "traps": [
+            {
+              "id": "T1",
+              "verdict": "correct",
+              "cards": [
+                0
+              ],
+              "note": "Card 0 correctly converts 45 to binary as 101101."
+            },
+            {
+              "id": "T2",
+              "verdict": "correct",
+              "cards": [
+                25,
+                26
+              ],
+              "note": "Cards 25 and 26 both demonstrate correct order of operations (14 and 20 respectively)."
+            },
+            {
+              "id": "T3",
+              "verdict": "correct",
+              "cards": [
+                9
+              ],
+              "note": "Card 9 correctly states random.randint(1, 10) is inclusive on both ends."
+            },
+            {
+              "id": "T4",
+              "verdict": "correct",
+              "cards": [
+                10
+              ],
+              "note": "Card 10 correctly states random.random() returns [0, 1) excluding 1."
+            },
+            {
+              "id": "T5",
+              "verdict": "correct",
+              "cards": [
+                16
+              ],
+              "note": "Card 16 correctly derives [1, 10) from random.random() * 9 + 1."
+            }
+          ]
+        }
+      }
+    },
+    "CS110-6": {
+      "planted": {
+        "caught": 5,
+        "should_flag": 5,
+        "caught_right_reason": 5,
+        "false_alarms": 0,
+        "should_pass": 11,
+        "misses": [],
+        "false_alarm_details": [],
+        "eval_sec": 8.552,
+        "usage": {
+          "input_tokens": 4018,
+          "output_tokens": 1050
+        },
+        "per_card": {
+          "0": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Accurately reflects page 4's statement that input() always returns a string."
+          },
+          "1": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 5 shows 7 // 2 = 3, not 3.5; 7 / 2 = 3.5."
+          },
+          "2": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly describes modulo operator from page 5."
+          },
+          "3": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Accurately distinguishes = and == per page 6."
+          },
+          "4": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation"
+            ],
+            "python_issues": [],
+            "note": "Page 7 shows formula as C = (F − 32) × 5 / 9, not page 8."
+          },
+          "5": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly describes Boolean expressions without if, per page 9."
+          },
+          "6": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Accurately explains modulo wrapping for days, page 10."
+          },
+          "7": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "While loops are not covered in this recitation material; card is about sequential programming only."
+          },
+          "8": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly describes accumulator pattern from page 14."
+          },
+          "9": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 15 table shows math.ceil(-2.3) = -2, not -3."
+          },
+          "10": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly describes \\t escape character from page 16."
+          },
+          "11": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Answer describes modulo (%) not floor division (//); // drops decimal, not remainder."
+          },
+          "12": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly shows round(3.4567, 2) = 3.46 from page 16."
+          },
+          "13": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Matches sample run on page 17."
+          },
+          "14": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly explains int vs float casting from page 4."
+          },
+          "15": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Correctly identifies 7 ** 2 = 49 from page 5."
+          }
+        }
+      },
+      "generator": {
+        "cards": 35,
+        "facts_covered": 13,
+        "facts_total": 14,
+        "facts_page_correct": 13,
+        "facts_missed": [
+          "F4"
+        ],
+        "traps": {
+          "correct": 6,
+          "wrong": 0,
+          "not_covered": 0
+        },
+        "traps_wrong": [],
+        "evaluator_flagged": 0,
+        "uncovered_pages": [
+          1,
+          2,
+          18
+        ],
+        "judge_missing_ids": [],
+        "gen_sec": 27.061,
+        "eval_sec": 14.242,
+        "judge_sec": 7.585,
+        "usage": {
+          "generate": {
+            "input_tokens": 16,
+            "output_tokens": 1797,
+            "cache_creation_input_tokens": 3336,
+            "cache_read_input_tokens": 0
+          },
+          "evaluate": {
+            "input_tokens": 5510,
+            "output_tokens": 1717
+          },
+          "judge": {
+            "input_tokens": 4173,
+            "output_tokens": 960
+          }
+        },
+        "generated_cards": [
+          {
+            "question": "What does input() always return in Python?",
+            "answer": "input() always returns a string (str), regardless of what the user types.",
+            "page": 4
+          },
+          {
+            "question": "Why must you cast input() values before doing math?",
+            "answer": "Because '5' + '3' = '53' (string concatenation), but 5 + 3 = 8. You can only calculate with numbers, not text.",
+            "page": 4
+          },
+          {
+            "question": "When should you use int() vs float() to cast input?",
+            "answer": "Use int() for whole numbers (people, days, items). Use float() for decimal numbers (temperature, miles, gallons).",
+            "page": 4
+          },
+          {
+            "question": "What does the / operator do in Python?",
+            "answer": "/ performs regular division and always returns a decimal (float). Example: 7 / 2 = 3.5",
+            "page": 5
+          },
+          {
+            "question": "What does the // operator do in Python?",
+            "answer": "// performs floor division, dropping the decimal part. Example: 7 // 2 = 3",
+            "page": 5
+          },
+          {
+            "question": "What does the % (modulo) operator do in Python?",
+            "answer": "% returns the remainder after division. Example: 7 % 2 = 1",
+            "page": 5
+          },
+          {
+            "question": "What does the ** operator do in Python?",
+            "answer": "** raises a number to a power (exponentiation). Example: 7 ** 2 = 49",
+            "page": 5
+          },
+          {
+            "question": "What is the difference between = and == in Python?",
+            "answer": "= assigns a value to a variable. == compares two values and returns True or False.",
+            "page": 6
+          },
+          {
+            "question": "What is a Boolean value in Python?",
+            "answer": "A Boolean value is the result of a comparison expression: either True or False.",
+            "page": 6
+          },
+          {
+            "question": "What are the six comparison operators in Python?",
+            "answer": "==, !=, >, <, >=, <= — they compare two values and return True or False.",
+            "page": 6
+          },
+          {
+            "question": "What is the formula to convert Fahrenheit to Celsius?",
+            "answer": "C = (F - 32) × 5 / 9",
+            "page": 7
+          },
+          {
+            "question": "What does round(x, 2) do in Python?",
+            "answer": "round(x, 2) rounds the number x to 2 decimal places. Example: round(37.7778, 2) = 37.78",
+            "page": 7
+          },
+          {
+            "question": "What does print('') do in Python?",
+            "answer": "print('') prints a blank line, adding vertical space in the output.",
+            "page": 7
+          },
+          {
+            "question": "What is the formula to calculate miles per gallon (MPG)?",
+            "answer": "MPG = miles ÷ gallons",
+            "page": 8
+          },
+          {
+            "question": "What does \\n do inside a Python string?",
+            "answer": "\\n is a newline escape character — it skips to a new line in the output.",
+            "page": 8
+          },
+          {
+            "question": "How do commas in print() affect output?",
+            "answer": "Commas in print() separate values and automatically add a space between them.",
+            "page": 8
+          },
+          {
+            "question": "Why use int() instead of float() when counting people or guests?",
+            "answer": "People are whole numbers — there are no half-people, so int() is appropriate.",
+            "page": 9
+          },
+          {
+            "question": "How can you store a True/False result without using an if statement?",
+            "answer": "Assign a Boolean expression to a variable. Example: withinLimits = guests <= capacity stores True or False.",
+            "page": 9
+          },
+          {
+            "question": "How does modulo (%) help with days of the week?",
+            "answer": "% 7 wraps any day number back into the 0–6 range, so results always map to a real day.",
+            "page": 10
+          },
+          {
+            "question": "What is the formula to find a return day of the week?",
+            "answer": "returnDay = (startDay + numDays) % 7. The % 7 keeps the result between 0 and 6.",
+            "page": 11
+          },
+          {
+            "question": "How can you combine input() and float() on a single line?",
+            "answer": "length = float(input('Enter length: ')) — input() runs first, then float() casts the result.",
+            "page": 12
+          },
+          {
+            "question": "How do you check if a number is even without an if statement?",
+            "answer": "even = num % 2 == 0 — this stores True if the remainder is 0, False otherwise.",
+            "page": 13
+          },
+          {
+            "question": "What operator precedence applies in num % 2 == 0?",
+            "answer": "% runs before ==, so Python computes the remainder first, then checks if it equals 0.",
+            "page": 13
+          },
+          {
+            "question": "What is the accumulator pattern in Python?",
+            "answer": "Start total = 0, then repeatedly do total = total + num to add each new value to the running sum.",
+            "page": 14
+          },
+          {
+            "question": "What must you import to use math.ceil() and math.floor()?",
+            "answer": "You must add 'import math' at the top of your program.",
+            "page": 15
+          },
+          {
+            "question": "What does math.ceil() do?",
+            "answer": "math.ceil() rounds a number UP to the nearest integer (ceiling). Example: math.ceil(3.2) = 4",
+            "page": 15
+          },
+          {
+            "question": "What does math.floor() do?",
+            "answer": "math.floor() rounds a number DOWN to the nearest integer (floor). Example: math.floor(3.7) = 3",
+            "page": 15
+          },
+          {
+            "question": "What does math.ceil(-2.3) return?",
+            "answer": "math.ceil(-2.3) returns -2, because -2 is the next integer UP from -2.3.",
+            "page": 15
+          },
+          {
+            "question": "What does \\t do inside a Python string?",
+            "answer": "\\t is a tab escape character — it indents the output by one tab stop.",
+            "page": 16
+          },
+          {
+            "question": "What does round(3.4567) return (no second argument)?",
+            "answer": "round(3.4567) returns 4 — it rounds to the nearest whole number.",
+            "page": 16
+          },
+          {
+            "question": "How do you extract hours from a total number of seconds?",
+            "answer": "hours = totalSec // 3600 — floor division by 3600 gives the number of complete hours.",
+            "page": 17
+          },
+          {
+            "question": "How do you find leftover seconds after extracting hours?",
+            "answer": "leftover = totalSec % 3600 — modulo 3600 gives the remaining seconds after full hours.",
+            "page": 17
+          },
+          {
+            "question": "How do you extract minutes and seconds from leftover seconds?",
+            "answer": "minutes = leftover // 60; seconds = leftover % 60",
+            "page": 17
+          },
+          {
+            "question": "In sequential programming, in what order does Python execute code?",
+            "answer": "Python runs code line by line, top to bottom — order matters.",
+            "page": 3
+          },
+          {
+            "question": "What are the three stages of a sequential program?",
+            "answer": "INPUT (get data with input()), PROCESS (cast and calculate), OUTPUT (display results with print()).",
+            "page": 3
+          }
+        ],
+        "judge_verdict": {
+          "facts": [
+            {
+              "id": "F1",
+              "covered": true,
+              "cards": [
+                33
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F2",
+              "covered": true,
+              "cards": [
+                0,
+                1
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F3",
+              "covered": true,
+              "cards": [
+                2
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F4",
+              "covered": false,
+              "cards": [],
+              "page_correct": null
+            },
+            {
+              "id": "F5",
+              "covered": true,
+              "cards": [
+                3,
+                4,
+                5
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F6",
+              "covered": true,
+              "cards": [
+                6
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F7",
+              "covered": true,
+              "cards": [
+                8,
+                9
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F8",
+              "covered": true,
+              "cards": [
+                7
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F9",
+              "covered": true,
+              "cards": [
+                10
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F10",
+              "covered": true,
+              "cards": [
+                17
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F11",
+              "covered": true,
+              "cards": [
+                18
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F12",
+              "covered": true,
+              "cards": [
+                23
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F13",
+              "covered": true,
+              "cards": [
+                24,
+                25,
+                26
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F14",
+              "covered": true,
+              "cards": [
+                14,
+                28
+              ],
+              "page_correct": true
+            }
+          ],
+          "traps": [
+            {
+              "id": "T1",
+              "verdict": "correct",
+              "cards": [
+                1
+              ],
+              "note": "Card 1 explicitly states that '5' + '3' = '53' (string concatenation), not 8."
+            },
+            {
+              "id": "T2",
+              "verdict": "correct",
+              "cards": [
+                4
+              ],
+              "note": "Card 4 correctly states that 7 // 2 = 3 (floor division drops the decimal)."
+            },
+            {
+              "id": "T3",
+              "verdict": "correct",
+              "cards": [
+                18
+              ],
+              "note": "Card 18 correctly describes modulo wrapping day numbers into the 0–6 range."
+            },
+            {
+              "id": "T4",
+              "verdict": "correct",
+              "cards": [
+                27
+              ],
+              "note": "Card 27 correctly states that math.ceil(-2.3) returns -2 (the next integer UP)."
+            },
+            {
+              "id": "T5",
+              "verdict": "correct",
+              "cards": [
+                29
+              ],
+              "note": "Card 29 correctly states that round(3.4567) returns 4 (nearest whole number)."
+            },
+            {
+              "id": "T6",
+              "verdict": "correct",
+              "cards": [
+                30,
+                31,
+                32
+              ],
+              "note": "Cards 30–32 correctly use floor division (//) and modulo (%) to extract hours, minutes, and seconds."
+            }
+          ]
+        }
+      }
+    },
+    "CS110-7": {
+      "planted": {
+        "caught": 5,
+        "should_flag": 5,
+        "caught_right_reason": 5,
+        "false_alarms": 0,
+        "should_pass": 11,
+        "misses": [],
+        "false_alarm_details": [],
+        "eval_sec": 9.288,
+        "usage": {
+          "input_tokens": 3467,
+          "output_tokens": 1087
+        },
+        "per_card": {
+          "0": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Directly from page 3 IPO-S section."
+          },
+          "1": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 4 states Diamond represents decisions; Parallelogram represents Input/Output."
+          },
+          "2": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 6 confirms input() returns string and conversion requirement."
+          },
+          "3": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 8 Boolean Operators table confirms 'and' requires both True."
+          },
+          "4": {
+            "flagged": true,
+            "llm_flags": [
+              "citation"
+            ],
+            "python_issues": [],
+            "note": "Content is correct but page 13 discusses Program 2 structure; actual statement is on page 9."
+          },
+          "5": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 9 explicitly mentions colon and 4-space indentation requirement."
+          },
+          "6": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "The word 'elif' does not appear anywhere in the source text; only 'else' and 'if' are used."
+          },
+          "7": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 10 clearly states the grade ranges for A, B, C."
+          },
+          "8": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Page 14 table shows Program 1 makes 4 comparisons for 95→A, not 2."
+          },
+          "9": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 13 explains the logic: nested structure eliminates need for upper bound in B check."
+          },
+          "10": {
+            "flagged": true,
+            "llm_flags": [
+              "hallucination",
+              "citation",
+              "relevance"
+            ],
+            "python_issues": [],
+            "note": "Question asks why 'and' is needed but answer explains Program 1 and 2 equivalence, not the 'and' reasoning (which is on page 11)."
+          },
+          "11": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 16 interactive mode example shows math.ceil(-4.2) = -4."
+          },
+          "12": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 17 explains quit() stops the program immediately."
+          },
+          "13": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 15 states without import math, NameError: math is not defined."
+          },
+          "14": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 16 provides this exact example of ceil for table booking."
+          },
+          "15": {
+            "flagged": false,
+            "llm_flags": [],
+            "python_issues": [],
+            "note": "Page 8 Boolean Operators table confirms 'or' requires at least one True."
+          }
+        }
+      },
+      "generator": {
+        "cards": 34,
+        "facts_covered": 11,
+        "facts_total": 13,
+        "facts_page_correct": 11,
+        "facts_missed": [
+          "F9",
+          "F11"
+        ],
+        "traps": {
+          "correct": 4,
+          "wrong": 0,
+          "not_covered": 1
+        },
+        "traps_wrong": [],
+        "evaluator_flagged": 0,
+        "uncovered_pages": [
+          1,
+          2,
+          10,
+          12,
+          18
+        ],
+        "judge_missing_ids": [],
+        "gen_sec": 28.059,
+        "eval_sec": 12.288,
+        "judge_sec": 6.962,
+        "usage": {
+          "generate": {
+            "input_tokens": 16,
+            "output_tokens": 1745,
+            "cache_creation_input_tokens": 2808,
+            "cache_read_input_tokens": 0
+          },
+          "evaluate": {
+            "input_tokens": 4910,
+            "output_tokens": 1500
+          },
+          "judge": {
+            "input_tokens": 4018,
+            "output_tokens": 858
+          }
+        },
+        "generated_cards": [
+          {
+            "question": "What does the IPO-S model stand for?",
+            "answer": "Input, Process, Output, Storage. It describes the basic design of how any program works.",
+            "page": 3
+          },
+          {
+            "question": "What role do variables play in the IPO-S model?",
+            "answer": "Variables serve as Storage — they keep values for later use during program execution.",
+            "page": 3
+          },
+          {
+            "question": "What shape represents a Decision in a flowchart?",
+            "answer": "A Diamond shape represents a yes/no decision (an if condition).",
+            "page": 4
+          },
+          {
+            "question": "What shape represents Input/Output in a flowchart?",
+            "answer": "A Parallelogram represents getting input or displaying output.",
+            "page": 4
+          },
+          {
+            "question": "What shape represents a Process (calculation/assignment) in a flowchart?",
+            "answer": "A Rectangle represents a calculation or assignment step.",
+            "page": 4
+          },
+          {
+            "question": "What shape represents Start/End in a flowchart?",
+            "answer": "An Oval represents where the program begins or stops.",
+            "page": 4
+          },
+          {
+            "question": "What is the correct order of planning steps before writing code?",
+            "answer": "IPO-S → Pseudocode → Flowchart → Python code.",
+            "page": 5
+          },
+          {
+            "question": "What does the input() function always return in Python?",
+            "answer": "input() always returns a string, regardless of what the user types.",
+            "page": 6
+          },
+          {
+            "question": "What happens if you add two input() values without converting them?",
+            "answer": "Python performs string concatenation instead of addition. E.g., '5' + '3' = '53', not 8.",
+            "page": 6
+          },
+          {
+            "question": "Which function converts a string to a whole number in Python?",
+            "answer": "int() converts a string to an integer (whole number).",
+            "page": 6
+          },
+          {
+            "question": "Which function converts a string to a decimal number in Python?",
+            "answer": "float() converts a string to a floating-point (decimal) number.",
+            "page": 6
+          },
+          {
+            "question": "What is the difference between = and == in Python?",
+            "answer": "= stores a value (assignment); == compares two values (equality check). Mixing them up is the #1 bug in if statements.",
+            "page": 7
+          },
+          {
+            "question": "What does the relational operator != mean?",
+            "answer": "!= means 'not equal to'. It returns True if the two values are different.",
+            "page": 7
+          },
+          {
+            "question": "What do all relational operators return?",
+            "answer": "Every comparison (using <, <=, >, >=, ==, !=) returns either True or False.",
+            "page": 7
+          },
+          {
+            "question": "How does the 'and' boolean operator work?",
+            "answer": "'and' returns True only when BOTH conditions are True. If either is False, the result is False.",
+            "page": 8
+          },
+          {
+            "question": "How does the 'or' boolean operator work?",
+            "answer": "'or' returns True when AT LEAST ONE condition is True. It is False only when both are False.",
+            "page": 8
+          },
+          {
+            "question": "What is the syntax requirement at the end of an if statement header in Python?",
+            "answer": "A colon (:) must appear at the end of the if (or else) line. Python also requires 4-space indentation inside the block.",
+            "page": 9
+          },
+          {
+            "question": "In an if-else statement, how many blocks execute?",
+            "answer": "Exactly one block executes — either the if block (True) or the else block (False). Never both, never neither.",
+            "page": 9
+          },
+          {
+            "question": "Why is 'and' needed in the B-grade check: grade >= 80 and grade < 90?",
+            "answer": "Without 'and', a grade of 95 would also pass grade >= 80 and incorrectly be assigned 'B'.",
+            "page": 11
+          },
+          {
+            "question": "What is the drawback of using separate if statements for the letter-grade program?",
+            "answer": "All three if checks run every time, even after the grade is already determined, making it less efficient.",
+            "page": 11
+          },
+          {
+            "question": "Why doesn't the nested if-else letter-grade program need 'and' for the B check?",
+            "answer": "The inner grade >= 80 check is only reached when the grade is already below 90, so the upper limit is built in.",
+            "page": 13
+          },
+          {
+            "question": "How many comparisons does the nested if-else make for a grade of 95 (A)?",
+            "answer": "Only 1 comparison (grade >= 90 → True), then it stops immediately.",
+            "page": 14
+          },
+          {
+            "question": "How many comparisons do separate if statements make for any grade in the letter-grade program?",
+            "answer": "Always 4 comparisons, regardless of the input, because every if is checked every time.",
+            "page": 14
+          },
+          {
+            "question": "Why is the nested if-else more efficient than separate if statements?",
+            "answer": "Nested if-else stops as soon as it finds the answer, making 1–2 comparisons vs. 4 for separate ifs.",
+            "page": 14
+          },
+          {
+            "question": "What Python statement is needed to use math functions like sqrt, ceil, and floor?",
+            "answer": "import math must be placed at the very top of the program.",
+            "page": 15
+          },
+          {
+            "question": "What error occurs if you use math.sqrt() without importing math?",
+            "answer": "NameError: math is not defined.",
+            "page": 15
+          },
+          {
+            "question": "What is the Python power operator and how is it used?",
+            "answer": "** is the power operator. For example, a**2 computes a squared (a²).",
+            "page": 15
+          },
+          {
+            "question": "What does math.ceil(x) do?",
+            "answer": "math.ceil(x) returns the smallest integer ≥ x, always rounding UP.",
+            "page": 16
+          },
+          {
+            "question": "What does math.floor(x) do?",
+            "answer": "math.floor(x) returns the largest integer ≤ x, always rounding DOWN.",
+            "page": 16
+          },
+          {
+            "question": "What is math.ceil(4.2) and math.floor(4.8)?",
+            "answer": "math.ceil(4.2) = 5; math.floor(4.8) = 4.",
+            "page": 16
+          },
+          {
+            "question": "What is math.floor(-4.2)?",
+            "answer": "math.floor(-4.2) = -5, because -5 is the largest integer ≤ -4.2.",
+            "page": 16
+          },
+          {
+            "question": "What does quit() do in Python?",
+            "answer": "quit() stops the program immediately. No code after it runs.",
+            "page": 17
+          },
+          {
+            "question": "When should quit() be used in a program?",
+            "answer": "Use quit() for invalid input (e.g., negative length, zero people). Always print an error message before calling it.",
+            "page": 17
+          },
+          {
+            "question": "What is the Pythagorean theorem formula used in the Python example?",
+            "answer": "c = math.sqrt(a**2 + b**2), which computes c = √(a² + b²).",
+            "page": 15
+          }
+        ],
+        "judge_verdict": {
+          "facts": [
+            {
+              "id": "F1",
+              "covered": true,
+              "cards": [
+                0,
+                1
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F2",
+              "covered": true,
+              "cards": [
+                2,
+                3,
+                4,
+                5
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F3",
+              "covered": true,
+              "cards": [
+                6
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F4",
+              "covered": true,
+              "cards": [
+                7,
+                9,
+                10
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F5",
+              "covered": true,
+              "cards": [
+                13
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F6",
+              "covered": true,
+              "cards": [
+                14,
+                15
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F7",
+              "covered": true,
+              "cards": [
+                17
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F8",
+              "covered": true,
+              "cards": [
+                16
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F9",
+              "covered": false,
+              "cards": [],
+              "page_correct": null
+            },
+            {
+              "id": "F10",
+              "covered": true,
+              "cards": [
+                20
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F11",
+              "covered": false,
+              "cards": [],
+              "page_correct": null
+            },
+            {
+              "id": "F12",
+              "covered": true,
+              "cards": [
+                24,
+                25,
+                33
+              ],
+              "page_correct": true
+            },
+            {
+              "id": "F13",
+              "covered": true,
+              "cards": [
+                31,
+                32
+              ],
+              "page_correct": true
+            }
+          ],
+          "traps": [
+            {
+              "id": "T1",
+              "verdict": "correct",
+              "cards": [
+                8
+              ],
+              "note": "Card 8 correctly states that adding two input strings results in concatenation ('53') rather than arithmetic (8)."
+            },
+            {
+              "id": "T2",
+              "verdict": "correct",
+              "cards": [
+                18
+              ],
+              "note": "Card 18 correctly explains that without 'and', a grade of 95 would incorrectly be assigned 'B'."
+            },
+            {
+              "id": "T3",
+              "verdict": "correct",
+              "cards": [
+                21,
+                22,
+                23
+              ],
+              "note": "Cards correctly show separate ifs make 4 comparisons every time while nested if-else makes fewer (1-2)."
+            },
+            {
+              "id": "T4",
+              "verdict": "correct",
+              "cards": [
+                30
+              ],
+              "note": "Card 30 correctly states math.floor(-4.2) = -5."
+            },
+            {
+              "id": "T5",
+              "verdict": "not_covered",
+              "cards": [],
+              "note": "No card addresses the real-world application of ceil() for distributing students across tables."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "totals": {
+    "planted_caught": 15,
+    "planted_should_flag": 15,
+    "planted_right_reason": 15,
+    "planted_false_alarms": 0,
+    "planted_should_pass": 33,
+    "facts_covered": 37,
+    "facts_total": 40,
+    "traps_correct": 15,
+    "traps_wrong": 0,
+    "traps_not_covered": 1,
+    "cards": 99,
+    "evaluator_flagged": 1,
+    "gen_sec_avg": 27.34
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What does IPO-S stand for?",
+    "answer": "Input, Process, Output, Storage.",
+    "page": 3
+  },
+  {
+    "question": "Which flowchart symbol represents a decision?",
+    "answer": "A parallelogram.",
+    "page": 4
+  },
+  {
+    "question": "What type does input() return?",
+    "answer": "Always a string; convert with int() or float() before doing math.",
+    "page": 6
+  },
+  {
+    "question": "When is an 'and' expression True?",
+    "answer": "Only when both sides are True.",
+    "page": 8
+  },
+  {
+    "question": "In an if-else, how many blocks run?",
+    "answer": "Exactly one: never both, never neither.",
+    "page": 13
+  },
+  {
+    "question": "What two syntax details does an if statement need?",
+    "answer": "A colon at the end of the if line and an indented body (4 spaces).",
+    "page": 9
+  },
+  {
+    "question": "What does elif do in Python?",
+    "answer": "It checks another condition when the previous if was False.",
+    "page": 13
+  },
+  {
+    "question": "What are the letter grade ranges in the recitation problem?",
+    "answer": "A: 90-100, B: 80-89, C: 79 and below.",
+    "page": 10
+  },
+  {
+    "question": "How many comparisons does the separate-ifs program make for a grade of 95?",
+    "answer": "2",
+    "page": 14
+  },
+  {
+    "question": "Why does the nested if-else not need 'and' for the B check?",
+    "answer": "grade >= 80 is only checked when the grade is already below 90, so the upper limit is built in.",
+    "page": 13
+  },
+  {
+    "question": "Why does Program 1 need 'and' in the B check?",
+    "answer": "Program 1 and Program 2 give the same letter grade for every input.",
+    "page": 11
+  },
+  {
+    "question": "What is math.ceil(-4.2)?",
+    "answer": "-4",
+    "page": 16
+  },
+  {
+    "question": "What does quit() do?",
+    "answer": "Stops the program immediately; nothing after it runs.",
+    "page": 17
+  },
+  {
+    "question": "What happens if you use math.sqrt without import math?",
+    "answer": "NameError: math is not defined.",
+    "page": 15
+  },
+  {
+    "question": "How many tables do 23 students need at 5 per table?",
+    "answer": "math.ceil(23 / 5) = 5 tables.",
+    "page": 16
+  },
+  {
+    "question": "What does an 'or' expression need to be True?",
+    "answer": "At least one side must be True.",
+    "page": 8
+  }
+]

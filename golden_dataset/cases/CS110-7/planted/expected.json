@@ -1,0 +1,74 @@
+{
+  "pdf": "CS110-7.pdf",
+  "cards_file": "cards.json",
+  "evaluator": "make-flashcards",
+  "index_base": 0,
+  "total": 16,
+  "should_flag": [
+    {
+      "card": 1,
+      "type": "wrong_fact",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [
+        "relevance"
+      ],
+      "why": "Decisions are diamonds; parallelograms are input/output."
+    },
+    {
+      "card": 4,
+      "type": "wrong_page",
+      "expected_llm_flags": [
+        "citation"
+      ],
+      "also_acceptable": [],
+      "why": "Fact is correct but it is on page 9; page 13 is the nested if-else program."
+    },
+    {
+      "card": 6,
+      "type": "hallucinated",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [
+        "citation",
+        "relevance"
+      ],
+      "why": "elif never appears in this recitation; it uses nested if-else instead."
+    },
+    {
+      "card": 8,
+      "type": "subtle_error",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [],
+      "why": "Separate ifs make 4 comparisons for every input; the nested version makes 1 for 95."
+    },
+    {
+      "card": 10,
+      "type": "qa_mismatch",
+      "expected_llm_flags": [
+        "relevance"
+      ],
+      "also_acceptable": [
+        "hallucination"
+      ],
+      "why": "True statement, but it does not answer the question (without 'and', a 95 would be changed to B)."
+    }
+  ],
+  "should_pass": [
+    0,
+    2,
+    3,
+    5,
+    7,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "pdf": "CS110-7.pdf",
+  "title": "CS110 Recitation 7 - Python 3: Conditionals",
+  "pages": 18,
+  "must_know": [
+    {
+      "id": "F1",
+      "page": 3,
+      "fact": "IPO-S model: Input, Process, Output, and Storage (variables); plan the IPO-S before writing code."
+    },
+    {
+      "id": "F2",
+      "page": 4,
+      "fact": "Flowchart symbols: oval = start/end, parallelogram = input/output, rectangle = process, diamond = decision."
+    },
+    {
+      "id": "F3",
+      "page": 5,
+      "fact": "Planning order: IPO-S, then pseudocode (plain English steps), then flowchart, then Python code."
+    },
+    {
+      "id": "F4",
+      "page": 6,
+      "fact": "input() always returns a string; convert with int() for whole numbers or float() for decimals before doing math."
+    },
+    {
+      "id": "F5",
+      "page": 7,
+      "fact": "Every relational comparison (<, <=, >, >=, ==, !=) gives back True or False."
+    },
+    {
+      "id": "F6",
+      "page": 8,
+      "fact": "and is True only when both sides are True; or is True when at least one side is True."
+    },
+    {
+      "id": "F7",
+      "page": 9,
+      "fact": "In an if-else, exactly one of the two blocks runs: never both, never neither."
+    },
+    {
+      "id": "F8",
+      "page": 9,
+      "fact": "An if line needs a colon at the end, and the body must be indented (4 spaces); Python uses indentation to know what is inside the if."
+    },
+    {
+      "id": "F9",
+      "page": 10,
+      "fact": "Letter grade rules: A is 90-100, B is 80-89, C is 79 and below."
+    },
+    {
+      "id": "F10",
+      "page": 13,
+      "fact": "In the nested if-else version, no 'and' is needed for B because grade >= 80 is only checked when the grade is already below 90."
+    },
+    {
+      "id": "F11",
+      "page": 13,
+      "fact": "Program 1 (separate ifs) and Program 2 (nested if-else) give the same letter grade for every input; only the structure differs."
+    },
+    {
+      "id": "F12",
+      "page": 15,
+      "fact": "import math goes at the top; without it you get NameError: math is not defined. math.sqrt computes a square root (c = math.sqrt(a**2 + b**2))."
+    },
+    {
+      "id": "F13",
+      "page": 17,
+      "fact": "quit() stops the program immediately; nothing after it runs. Use it for bad input and print a message first."
+    }
+  ],
+  "traps": [
+    {
+      "id": "T1",
+      "page": 6,
+      "topic": "adding two unconverted inputs",
+      "correct": "with inputs \"5\" and \"3\", print(x + y) prints 53; after int() conversion it prints 8",
+      "common_mistake": "prints 8 without conversion"
+    },
+    {
+      "id": "T2",
+      "page": 11,
+      "topic": "why the 'and' is needed in separate ifs",
+      "correct": "without 'and grade < 90', a 95 would first get A and then be changed to B",
+      "common_mistake": "says the and is optional or that 95 stays A"
+    },
+    {
+      "id": "T3",
+      "page": 14,
+      "topic": "number of comparisons",
+      "correct": "separate ifs make 4 comparisons for every input; nested if-else makes 1 (for 95) or 2 (for 85 or 70)",
+      "common_mistake": "says both programs do the same amount of work"
+    },
+    {
+      "id": "T4",
+      "page": 16,
+      "topic": "ceil and floor of a negative number",
+      "correct": "math.ceil(-4.2) is -4 and math.floor(-4.2) is -5",
+      "common_mistake": "math.ceil(-4.2) is -5 or math.floor(-4.2) is -4"
+    },
+    {
+      "id": "T5",
+      "page": 16,
+      "topic": "real-world ceil",
+      "correct": "23 students at 5 per table needs math.ceil(23 / 5) = 5 tables",
+      "common_mistake": "4 tables (using floor or //)"
+    }
+  ]
+}

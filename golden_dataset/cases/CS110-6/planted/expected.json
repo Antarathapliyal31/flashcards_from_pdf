@@ -1,0 +1,74 @@
+{
+  "pdf": "CS110-6.pdf",
+  "cards_file": "cards.json",
+  "evaluator": "make-flashcards",
+  "index_base": 0,
+  "total": 16,
+  "should_flag": [
+    {
+      "card": 1,
+      "type": "wrong_fact",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [
+        "relevance"
+      ],
+      "why": "Floor division drops the decimal: 7 // 2 is 3."
+    },
+    {
+      "card": 4,
+      "type": "wrong_page",
+      "expected_llm_flags": [
+        "citation"
+      ],
+      "also_acceptable": [],
+      "why": "Fact is correct but it is on page 7; page 8 is the MPG calculator."
+    },
+    {
+      "card": 7,
+      "type": "hallucinated",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [
+        "citation",
+        "relevance"
+      ],
+      "why": "This recitation is sequential only; while loops do not appear in the PDF."
+    },
+    {
+      "card": 9,
+      "type": "subtle_error",
+      "expected_llm_flags": [
+        "hallucination"
+      ],
+      "also_acceptable": [],
+      "why": "ceil rounds up: math.ceil(-2.3) is -2 (floor is -3)."
+    },
+    {
+      "card": 11,
+      "type": "qa_mismatch",
+      "expected_llm_flags": [
+        "relevance"
+      ],
+      "also_acceptable": [
+        "hallucination"
+      ],
+      "why": "The answer describes %, not //; floor division drops the decimal."
+    }
+  ],
+  "should_pass": [
+    0,
+    2,
+    3,
+    5,
+    6,
+    8,
+    10,
+    12,
+    13,
+    14,
+    15
+  ]
+}

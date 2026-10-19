@@ -2,8 +2,8 @@
 """Extract page-numbered text from a PDF into extracted/<stem>.json.
 
 Deterministic (no LLM). Idempotent: skips re-extraction if the extracted file
-is newer than the PDF. Only reads from inbox/ (defense-in-depth check in
-addition to the protect_pdf.py hook).
+is newer than the PDF. Only reads from inbox/ or golden_dataset/pdfs/
+(defense-in-depth check in addition to the protect_pdf.py hook).
 
 Usage:
     python extract.py inbox/<file>.pdf
@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 PROJECT_ROOT = HERE.parents[3]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from config import EXTRACTED, INBOX  # noqa: E402
+from config import EXTRACTED, GOLDEN_PDFS, INBOX  # noqa: E402
 from metrics import log_event  # noqa: E402
 
 try:
@@ -29,15 +29,23 @@ except ImportError:
     sys.exit(1)
 
 
+ALLOWED_ROOTS = (INBOX, GOLDEN_PDFS)
+
+
 def extract(pdf_path: Path) -> Path:
     pdf_path = pdf_path.resolve()
     if not pdf_path.is_file():
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
-    try:
-        pdf_path.relative_to(INBOX.resolve())
-    except ValueError:
-        raise RuntimeError(f"extract.py only reads from {INBOX}; got {pdf_path}")
+    for root in ALLOWED_ROOTS:
+        try:
+            pdf_path.relative_to(root.resolve())
+            break
+        except ValueError:
+            continue
+    else:
+        allowed = " or ".join(str(r) for r in ALLOWED_ROOTS)
+        raise RuntimeError(f"extract.py only reads from {allowed}; got {pdf_path}")
 
     EXTRACTED.mkdir(parents=True, exist_ok=True)
     out_path = EXTRACTED / f"{pdf_path.stem}.json"

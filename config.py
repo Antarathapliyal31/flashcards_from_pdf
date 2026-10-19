@@ -8,12 +8,16 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 INBOX = PROJECT_ROOT / "inbox"
+GOLDEN_PDFS = PROJECT_ROOT / "golden_dataset" / "pdfs"
 EXTRACTED = PROJECT_ROOT / "extracted"
 FLASHCARDS = PROJECT_ROOT / "flashcards"
 SUMMARIES = PROJECT_ROOT / "summaries"
 KEY_POINTS = PROJECT_ROOT / "key-points"
 EVALS = PROJECT_ROOT / "evals"
 SESSIONS = PROJECT_ROOT / ".claude" / "sessions"
+
+GEN_MODEL = "claude-sonnet-4-6"
+EVALUATOR_MODEL = "claude-haiku-4-5-20251001"
 
 MAX_ANSWER_CHARS = 240
 MAX_SUMMARY_SECTIONS = 7

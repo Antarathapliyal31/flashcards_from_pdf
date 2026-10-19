@@ -1,0 +1,109 @@
+{
+  "pdf": "CS110-5.pdf",
+  "title": "CS110 Recitation 5 - Python Intro",
+  "pages": 22,
+  "must_know": [
+    {
+      "id": "F1",
+      "page": 3,
+      "fact": "Decimal to binary: repeatedly divide by 2 and read the remainders from bottom to top."
+    },
+    {
+      "id": "F2",
+      "page": 3,
+      "fact": "Binary to hex: split into groups of 4 bits, padding with 0s on the left, and convert each group to one hex digit."
+    },
+    {
+      "id": "F3",
+      "page": 6,
+      "fact": "Order of operations: ** first, then * and /, then + and -; parentheses change the order."
+    },
+    {
+      "id": "F4",
+      "page": 7,
+      "fact": "The interpreter (immediate mode, started with python3) evaluates one expression at a time; exit() leaves it."
+    },
+    {
+      "id": "F5",
+      "page": 9,
+      "fact": "A variable stores data; = means store: the right side is calculated first, then saved in the variable on the left."
+    },
+    {
+      "id": "F6",
+      "page": 11,
+      "fact": "In print, commas add a space automatically and work with any type; + only joins text to text, so numbers must be wrapped in str()."
+    },
+    {
+      "id": "F7",
+      "page": 12,
+      "fact": "Libraries are imported at the top of the program (import random, import math)."
+    },
+    {
+      "id": "F8",
+      "page": 12,
+      "fact": "math.ceil(x) rounds up, math.floor(x) rounds down, and math.sqrt(x) gives the square root."
+    },
+    {
+      "id": "F9",
+      "page": 13,
+      "fact": "A Boolean value is a logical result, True or False, for example big = (c >= 10)."
+    },
+    {
+      "id": "F10",
+      "page": 14,
+      "fact": "if/else needs a colon after if and else, and the body is indented; == compares, = stores."
+    },
+    {
+      "id": "F11",
+      "page": 15,
+      "fact": "round(x, 2) keeps 2 decimals, while ceil and floor return whole numbers; a decimal plus an integer gives a decimal."
+    },
+    {
+      "id": "F12",
+      "page": 16,
+      "fact": "Rectangle: area = length * width and perimeter = 2 * (length + width)."
+    },
+    {
+      "id": "F13",
+      "page": 19,
+      "fact": "Common bugs: = instead of == in a condition, missing quotes around text, curly quotes copied from Word/PDF, and adding text to a number without str()."
+    }
+  ],
+  "traps": [
+    {
+      "id": "T1",
+      "page": 3,
+      "topic": "base conversion example",
+      "correct": "45 in decimal is 101101 in binary and 2D in hex (2 * 16 + 13 = 45)",
+      "common_mistake": "45 is 101011 in binary, or 2E in hex"
+    },
+    {
+      "id": "T2",
+      "page": 6,
+      "topic": "order of operations",
+      "correct": "2 + 3 * 4 is 14, while (2 + 3) * 4 is 20",
+      "common_mistake": "2 + 3 * 4 is 20"
+    },
+    {
+      "id": "T3",
+      "page": 12,
+      "topic": "random.randint range",
+      "correct": "random.randint(1, 10) returns a whole number from 1 to 10 with both ends included",
+      "common_mistake": "10 is excluded"
+    },
+    {
+      "id": "T4",
+      "page": 12,
+      "topic": "random.random range",
+      "correct": "random.random() returns a decimal from 0 up to but not including 1",
+      "common_mistake": "can return 1, or returns an integer"
+    },
+    {
+      "id": "T5",
+      "page": 17,
+      "topic": "scaling random.random()",
+      "correct": "random.random() * 9 + 1 gives a decimal in [1, 10)",
+      "common_mistake": "gives [1, 10] or [0, 10)"
+    }
+  ]
+}

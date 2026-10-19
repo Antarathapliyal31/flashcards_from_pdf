@@ -25,7 +25,7 @@ HERE = Path(__file__).resolve().parent
 load_dotenv(HERE / ".env")
 sys.path.insert(0, str(HERE))
 
-from config import EVALS, INBOX  # noqa: E402
+from config import EVALS, GEN_MODEL, INBOX  # noqa: E402
 from metrics import log_event  # noqa: E402
 
 # Import extract function to reuse extraction caching
@@ -203,8 +203,7 @@ def main() -> int:
             raise ValueError("ANTHROPIC_API_KEY not set in .env")
         client = Anthropic(api_key=api_key)
 
-        # Get model from .env
-        model = os.environ.get("GEN_MODEL", "claude-haiku-4-5-20251001")
+        model = GEN_MODEL
 
         # Generate
         gen_start = time.time()

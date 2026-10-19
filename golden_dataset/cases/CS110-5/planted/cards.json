@@ -1,0 +1,82 @@
+[
+  {
+    "question": "How do you convert a decimal number to binary?",
+    "answer": "Divide by 2 repeatedly and read the remainders from bottom to top.",
+    "page": 3
+  },
+  {
+    "question": "What does 2 + 3 * 4 evaluate to in Python?",
+    "answer": "20",
+    "page": 6
+  },
+  {
+    "question": "How do you enter and leave Python's interactive interpreter?",
+    "answer": "Type python3 in the terminal; type exit() to leave.",
+    "page": 7
+  },
+  {
+    "question": "What does = mean in Python?",
+    "answer": "Store: the right side is calculated first, then saved in the variable on the left.",
+    "page": 9
+  },
+  {
+    "question": "When printing, how do commas differ from + for joining values?",
+    "answer": "Commas add a space and work with any type; + only joins text, so numbers need str().",
+    "page": 13
+  },
+  {
+    "question": "What range does random.randint(1, 10) return?",
+    "answer": "A whole number from 1 to 10, both ends included.",
+    "page": 12
+  },
+  {
+    "question": "What does a for loop do?",
+    "answer": "It repeats a block of code once for each item in a sequence.",
+    "page": 16
+  },
+  {
+    "question": "What range does random.random() return?",
+    "answer": "A decimal from 0 up to but not including 1.",
+    "page": 12
+  },
+  {
+    "question": "What is 45 (decimal) in hexadecimal?",
+    "answer": "2E",
+    "page": 3
+  },
+  {
+    "question": "What is a Boolean value?",
+    "answer": "A logical result: True or False.",
+    "page": 13
+  },
+  {
+    "question": "What does math.sqrt(x) return?",
+    "answer": "import random and import math go at the top of the program.",
+    "page": 12
+  },
+  {
+    "question": "How do you compute a rectangle's area and perimeter?",
+    "answer": "area = length * width; perimeter = 2 * (length + width).",
+    "page": 16
+  },
+  {
+    "question": "What range does random.random() * 9 + 1 produce?",
+    "answer": "A decimal in [1, 10).",
+    "page": 17
+  },
+  {
+    "question": "Why does print(“Hello”) fail?",
+    "answer": "Curly quotes copied from Word/PDF; use straight quotes.",
+    "page": 19
+  },
+  {
+    "question": "What syntax does an if/else need?",
+    "answer": "A colon after if and else, and an indented body.",
+    "page": 14
+  },
+  {
+    "question": "What is the order of operations in Python?",
+    "answer": "** first, then * and /, then + and -; parentheses change the order.",
+    "page": 6
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What does input() return?",
+    "answer": "Always a string, even if the user types a number.",
+    "page": 4
+  },
+  {
+    "question": "What does 7 // 2 evaluate to in Python?",
+    "answer": "3.5",
+    "page": 5
+  },
+  {
+    "question": "What does the % operator give?",
+    "answer": "The remainder of a division, e.g. 7 % 2 is 1.",
+    "page": 5
+  },
+  {
+    "question": "What is the difference between = and ==?",
+    "answer": "= assigns a value; == compares two values.",
+    "page": 6
+  },
+  {
+    "question": "What is the Fahrenheit to Celsius formula used in the recitation?",
+    "answer": "C = (F - 32) * 5 / 9",
+    "page": 8
+  },
+  {
+    "question": "How can you get a True/False answer without an if statement?",
+    "answer": "Store a Boolean expression in a variable, e.g. withinLimits = guests <= capacity.",
+    "page": 9
+  },
+  {
+    "question": "Why use % 7 for days of the week?",
+    "answer": "It wraps the value so the result is always 0 to 6, e.g. 13 % 7 is 6.",
+    "page": 10
+  },
+  {
+    "question": "What does a while loop do?",
+    "answer": "It repeats a block of code as long as its condition is True.",
+    "page": 14
+  },
+  {
+    "question": "What is the accumulator pattern?",
+    "answer": "Start total at 0, then total = total + num adds each new value.",
+    "page": 14
+  },
+  {
+    "question": "What is math.ceil(-2.3)?",
+    "answer": "-3",
+    "page": 15
+  },
+  {
+    "question": "What does \\t do in a print string?",
+    "answer": "Inserts a tab (indent).",
+    "page": 16
+  },
+  {
+    "question": "What does the // operator do?",
+    "answer": "Gives the remainder after division, e.g. 7 % 2 is 1.",
+    "page": 5
+  },
+  {
+    "question": "What does round(3.4567, 2) return?",
+    "answer": "3.46",
+    "page": 16
+  },
+  {
+    "question": "How many hours, minutes, and seconds are 4000 seconds?",
+    "answer": "1 h 6 m 40 s",
+    "page": 17
+  },
+  {
+    "question": "When should you cast with int() instead of float()?",
+    "answer": "For whole numbers like people, days, or items; float() is for decimals.",
+    "page": 4
+  },
+  {
+    "question": "What is 7 ** 2?",
+    "answer": "49 (** is the exponent operator).",
+    "page": 5
+  }
+]

@@ -17,3 +17,5 @@ venv/
 evals/errors.log
 evals/metrics.jsonl
 evals/*.failed
+extracted/
+golden_dataset/results/

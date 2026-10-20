@@ -3,26 +3,8 @@ name: golden
 on:
   pull_request:
     branches: [main]
-    paths:
-      - config.py
-      - generate.py
-      - evaluator/**
-      - .claude/skills/make-flashcards/references/**
-      - .claude/skills/make-flashcards/scripts/extract.py
-      - golden_dataset/**
-      - requirements.txt
-      - .github/workflows/golden.yml
   push:
     branches: [main]
-    paths:
-      - config.py
-      - generate.py
-      - evaluator/**
-      - .claude/skills/make-flashcards/references/**
-      - .claude/skills/make-flashcards/scripts/extract.py
-      - golden_dataset/**
-      - requirements.txt
-      - .github/workflows/golden.yml
   workflow_dispatch:
 
 concurrency:
@@ -36,26 +18,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Detect relevant changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            relevant:
+              - config.py
+              - generate.py
+              - evaluator/**
+              - .claude/skills/make-flashcards/references/**
+              - .claude/skills/make-flashcards/scripts/extract.py
+              - golden_dataset/**
+              - requirements.txt
+              - .github/workflows/golden.yml
+
+      - name: Skip note
+        if: steps.changes.outputs.relevant != 'true'
+        run: |
+          echo "No watched files changed; skipping golden run." | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Set up Python
+        if: steps.changes.outputs.relevant == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
 
       - name: Install dependencies
+        if: steps.changes.outputs.relevant == 'true'
         run: pip install -r requirements.txt
 
       - name: Run golden --check
+        if: steps.changes.outputs.relevant == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 golden_dataset/run_golden.py --check
 
       - name: Write step summary
-        if: always()
+        if: always() && steps.changes.outputs.relevant == 'true'
         run: python3 golden_dataset/_summarize_latest.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload results artifact
-        if: always()
+        if: always() && steps.changes.outputs.relevant == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: golden-results

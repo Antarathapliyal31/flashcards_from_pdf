@@ -45,6 +45,26 @@ def main() -> int:
             print(f"- **{name}:** `{err}`")
         print()
 
+    misses = []
+    for name, case in cases.items():
+        planted = case.get("planted") or {}
+        for m in planted.get("misses", []):
+            misses.append({
+                "case": name,
+                "card": m.get("card"),
+                "type": m.get("type", ""),
+                "why": m.get("why", ""),
+            })
+    if misses:
+        print("### Missed planted cards")
+        print("| case | card | type | why |")
+        print("|---|---|---|---|")
+        for m in misses:
+            # Pipes in notes would break the table; swap for a slash.
+            why = (m["why"] or "").replace("|", "/")
+            print(f"| {m['case']} | {m['card']} | {m['type']} | {why} |")
+        print()
+
     print("### Evaluator (planted test)")
     print("| metric | value |")
     print("|---|---|")

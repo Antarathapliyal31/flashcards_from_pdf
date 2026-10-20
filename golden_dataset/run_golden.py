@@ -266,6 +266,22 @@ def print_summary(results: dict) -> None:
 
 # ------------------------- --check mode -------------------------
 
+def collect_misses(current: dict) -> list[dict]:
+    """Return every planted mistake the evaluator failed to flag, flattened
+    across cases. Shape: [{"case", "card", "type", "why"}, ...]."""
+    out: list[dict] = []
+    for name, case in current.get("cases", {}).items():
+        planted = case.get("planted") or {}
+        for m in planted.get("misses", []):
+            out.append({
+                "case": name,
+                "card": m.get("card"),
+                "type": m.get("type", ""),
+                "why": m.get("why", ""),
+            })
+    return out
+
+
 def _case_signature(case: dict) -> dict:
     """Shape of a case that must match baseline, independent of pass/fail numbers.
     This is what defines whether the planted set / answer key changed."""
@@ -466,6 +482,13 @@ def main() -> int:
                   file=sys.stderr)
             for v in violations:
                 print(f"  - {v}", file=sys.stderr)
+            misses = collect_misses(results)
+            if misses:
+                print("\nMissed planted cards:", file=sys.stderr)
+                for m in misses:
+                    why = f": {m['why']}" if m['why'] else ""
+                    print(f"  - {m['case']} card {m['card']} ({m['type']}){why}",
+                          file=sys.stderr)
             return 1
         print("\nPASS: thresholds met vs baseline "
               f"{base['run_id']} (gen: {base.get('gen_model')}, "
